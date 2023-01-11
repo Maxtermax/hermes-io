@@ -1,0 +1,25 @@
+{
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
+  },
+  "plugins": [
+    "alias-quokka-plugin",
+    "jsdom-quokka-plugin"
+  ],
+  "alias": {
+    "@core": "./src/core",
+    "@components": "./src/core/components",
+    "@contexts": "./src/core/contexts",
+    "@factory": "./src/core/factory",
+    "@hooks": "./src/core/hooks",
+    "@utils": "./src/core/utils",
+    "@libs": "./src/libs",
+    "@constants": "./src/core/constants",
+    "@translations": "./src/core/translations",
+    "@theme": "./src/core/theme",
+    "@routes": "./src/core/routes"
+  },
+  "node": "~/.nvm/versions/node/v16.18.1/bin/node"
+}
