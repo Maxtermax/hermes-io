@@ -7,6 +7,8 @@ export class Observer {
     this.subscriptors.splice(this.subscriptors.findIndex(cb => cb  === callback), 1);
   }
   notify(args = {}) {
-    this.subscriptors.forEach(callback => callback(args));
+    return new Promise((resolve) => {
+      this.subscriptors.forEach(callback => callback(args, resolve));
+    })
   }
 }
