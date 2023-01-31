@@ -26,7 +26,7 @@ const handleMessageFromDevtools = (event) => {
 };
 
 
-export const enableDevtools = () => {
+export const enableDevTools = () => {
   if (!isDevtoolsInitialized) {
     window.addEventListener("message", handleMessageFromDevtools);
     isDevtoolsInitialized = true;
