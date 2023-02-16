@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { enableDevTools } from "../context";
 
 export const useObserver = (props = {}) => {
   useEffect(() => {
@@ -8,9 +7,7 @@ export const useObserver = (props = {}) => {
       const hasfromList = contexts.length !== 0;
       const hasValidList = hasfromList && contexts.find((ctx) => ctx.id === payload?.context?.id);
       if (hasValidList) {
-        if (!enableDevTools()) {
-          payload?.context?.update({ value: payload, listener });
-        }
+        payload?.context?.update({ value: payload, listener });
         listener?.(payload, resolve);
       }
     }

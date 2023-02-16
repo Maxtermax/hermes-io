@@ -1,4 +1,3 @@
-let isDevtoolsInitialized = false;
 let recording = false;
 let collection = [];
 
@@ -26,13 +25,7 @@ const handleMessageFromDevtools = (event) => {
 };
 
 
-export const enableDevTools = () => {
-  if (!isDevtoolsInitialized) {
-    window.addEventListener("message", handleMessageFromDevtools);
-    isDevtoolsInitialized = true;
-  }
-  return isDevtoolsInitialized;
-};
+window.addEventListener("message", handleMessageFromDevtools);
 
 export class Context {
   id = null;
