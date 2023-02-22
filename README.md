@@ -4,8 +4,8 @@ A lightweight javascript library that allows communication between components by
 # Summary
 - [Installation](#installation)
 - [Get started](#get-started)
-- [Observers](#observers)
-- [Contexts](#contexts)
+- [Observer](#observer)
+- [Context](#context)
 - [useObserver](#useobserver-hook)
 - [notify](#notify)
 - Devtools (TODO)
@@ -19,7 +19,7 @@ npm i hermes-io --save
 # Get started
 `hermes-io` is a set of toolkits that combined allows communication between components let's explore every tool by following the `sneaker store example`:
 
-# Observers
+# Observer
 `hermes-io` provide an `Observer` class to create instances that can be `subscribable` that means many subscribers can listen for notifications on the instance by using the method `subscribe`, check the following example:
 
 We are exporting an `object` with two instances of the class `Observer` each key of the object has invidual propuses one for handle notifications about `add` a product and the other for `remove` a product.
@@ -34,7 +34,7 @@ export default {
 };
 ```
 
-# Contexts
+# Context
 `NOTICE` this concept has nothing to do with the `react context api`.
 
 `hermes-io` provide a `Context` class to create instances that can be used to create `notification context` that means that only notification 
@@ -89,7 +89,8 @@ productsStore.set('collection', sneakerList);
 |----------|-------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | observer | Observer instance | true     | An instance of the class Observer                                                                                                                               |
 | listener | Function          | true     | A standar javascript function                                                                                                                                   |
-| contexts | Array<Context>    | true     | An array of instances of the class Context, when a notification comes and is not signed with any of the contexts in the array the listener never will be called |
+| contexts | Context[]    | true     | An array of instances of the class Context, when a notification comes and is not signed with any of the contexts in the array the listener never will be called |
+
 
 ```javascript
  import { useObserver } from "hermes-io";
@@ -156,6 +157,7 @@ Is a method that allows sending notifications to the `subscribers` of a specific
 | value   | any     | true     | Payload with business information |
 | context | context | true     | A context instance                |
   
+
 ```javascript
 // ShoppingCar.js
 import ProductsObservers from './observers/products';
