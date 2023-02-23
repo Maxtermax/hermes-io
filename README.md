@@ -20,6 +20,7 @@ npm i hermes-io --save
 
 # Get started
 `hermes-io` is a set of toolkits that combined allows communication between components let's explore every tool by following the [sneaker store example ](https://sneaker-store-1.vercel.app/) ⭐
+[souce code](https://github.com/Maxtermax/sneaker-store)
 
 # Observer
 `hermes-io` provide an `Observer` class to create instances that can be `subscribable` that means many subscribers can listen for notifications on the instance by using the method `subscribe`, check the following example:
