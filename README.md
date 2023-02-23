@@ -10,6 +10,8 @@ A lightweight javascript library that allows communication between components by
 - [notify](#notify)
 - Devtools (TODO)
 
+[DevTools Preview](https://www.youtube.com/watch?v=OSL9ob56urw)
+
 
 # Installation
 ```
