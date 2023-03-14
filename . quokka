@@ -10,7 +10,6 @@
   ],
   "alias": {
     "@core": "./src/core",
-    "@components": "./src/core/components",
     "@contexts": "./src/core/contexts",
     "@factory": "./src/core/factory",
     "@hooks": "./src/core/hooks",
