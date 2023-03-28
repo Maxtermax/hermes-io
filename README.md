@@ -8,7 +8,7 @@ A lightweight javascript library that allows communication between components by
 - [Context](#context)
 - [useObserver](#useobserver-hook)
 - [notify](#notify)
-- Devtools (TODO)
+- Devtools (chrome extension on review, release soon...)
 
 ![DevTools Preview](https://raw.githubusercontent.com/Maxtermax/hermes-io-devtools/master/demo.gif)
 
