@@ -8,7 +8,7 @@ A lightweight javascript library that allows communication between components by
 - [Context](#context)
 - [useObserver](#useobserver-hook)
 - [notify](#notify)
-- Devtools (chrome extension on review, release soon...)
+- [Devtools](https://github.com/Maxtermax/hermes-io-devtools)
 
 ![DevTools Preview](https://raw.githubusercontent.com/Maxtermax/hermes-io-devtools/master/demo.gif)
 
@@ -205,6 +205,4 @@ export const Products = (props = {}) => {
 };
 ```
 
-
-
-
+If you find me work helpful please consider support me at https://www.buymeacoffee.com/maxtermax, that encourage me to continue working on cool open source projects.
