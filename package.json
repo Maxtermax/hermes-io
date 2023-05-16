@@ -1,6 +1,6 @@
 {
   "name": "hermes-io",
-  "version": "2.2.15",
+  "version": "2.2.16",
   "description": "A lightweight javascript library that allows communication between Reactjs components by using the observer pattern and the hook api",
   "main": "index.js",
   "scripts": {
@@ -14,8 +14,7 @@
   ],
   "author": "maxtermax",
   "license": "MIT",
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "18.2.0"
+  "peerDependencies": {
+    "react": "^18.2.0"
   }
 }
