@@ -1,11 +1,14 @@
 # dev
 /src
 
-#c config
+# config
 .editorconfig
 .eslintrc.js
 .gitignore
 .quokka
+.swcrc
+
+./README.md
 
 # dependencies
 /node_modules
