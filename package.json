@@ -1,10 +1,18 @@
 {
   "name": "hermes-io",
-  "version": "2.2.16",
+  "version": "2.2.17",
   "description": "A lightweight javascript library that allows communication between Reactjs components by using the observer pattern and the hook api",
-  "main": "index.js",
+  "main": "./lib/index.js",
+  "module": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "swc ./src -d ./lib"
+  },
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.js"
+    }
   },
   "keywords": [
     "hermes-io",

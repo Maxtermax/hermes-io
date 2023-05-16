@@ -1,0 +1,11 @@
+# dev
+/src
+
+#c config
+.editorconfig
+.eslintrc.js
+.gitignore
+.quokka
+
+# dependencies
+/node_modules
