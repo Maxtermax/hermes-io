@@ -6,7 +6,7 @@
   "module": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "swc ./src -d ./lib && touch README2.md && echo '# hermes-io ⚡ \n A lightweight javascript library that allows communication between components by using the observer pattern and the hook api. \n\n  ![chrome extension](https://raw.githubusercontent.com/Maxtermax/hermes-io-devtools/master/demo.gif) \n\n  ## Documentation: \n\n  https://github.com/Maxtermax/hermes-io#readme' > ./README2.md"
+    "prepare": "swc ./src -d ./lib && touch README.md && echo '# hermes-io ⚡ \n A lightweight javascript library that allows communication between components by using the observer pattern and the hook api. \n\n  ![chrome extension](https://raw.githubusercontent.com/Maxtermax/hermes-io-devtools/master/demo.gif) \n\n  ## Documentation: \n\n  https://github.com/Maxtermax/hermes-io#readme' > ./README.md"
   },
   "exports": {
     ".": {
