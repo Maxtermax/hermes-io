@@ -6,6 +6,8 @@
 # testing
 /coverage
 
+/utils
+
 # production
 /lib
 
