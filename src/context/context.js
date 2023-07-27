@@ -19,11 +19,9 @@ function resetRecording() {
 
 function setContext({ id = "" }) {
   const context = collection.find((context) => context._internalId === id);
-  console.log({ id, collection, context });
   if (context) {
     if (context.isFromExternalRecording) {
       const listener = listenersMap.get(context.listener);
-      console.log({ listener, value: context.value });
       return listener?.({ value: JSON.parse(context.value) });
     }
     return context.listener(context.value);
