@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
+import { listenersMap } from "../context/context";
 
-export const useObserver = (props = {}) => {
+export const useObserver = (props) => {
   useEffect(() => {
-    const { observer, listener, contexts = [] } = props;
+    const { observer, listener, contexts = [] } = props || {};
     function subscriber(payload, resolve) {
       const hasfromList = contexts.length !== 0;
       const hasValidList = hasfromList && contexts.find((ctx) => ctx.id === payload?.context?.id);
@@ -12,6 +13,10 @@ export const useObserver = (props = {}) => {
       }
     }
     observer?.subscribe?.(subscriber);
-    return () => observer?.unsubscribe?.(subscriber);
+    listenersMap.set(props.listener.name, props.listener); 
+    return () => {
+      listenersMap.delete(props.listener.name); 
+      observer?.unsubscribe?.(subscriber);
+    };
   }, [props]);
 };
