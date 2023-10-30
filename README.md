@@ -8,9 +8,9 @@ A lightweight javascript library that allows communication between components by
 - [Context](#context)
 - [useObserver](#useobserver-hook)
 - [notify](#notify)
+- [CLI](#hermes-io-cli)
 - [Devtools](https://github.com/Maxtermax/hermes-io-devtools)
-
-![DevTools Preview](https://raw.githubusercontent.com/Maxtermax/hermes-io-devtools/master/demo.gif)
+![DevTools](https://raw.githubusercontent.com/Maxtermax/hermes-io-devtools/master/demo.gif)
 
 # Installation
 ```
@@ -204,5 +204,13 @@ export const Products = (props = {}) => {
   </ul>
 };
 ```
+
+# Hermes-io CLI
+This CLI is the official scaffolding generator for [hermes-io](https://www.npmjs.com/package/hermes-io#get-started), its generates a simple folder structure that guaranty separation of concerns encompassing pivotal elements such as: [contexts](https://github.com/Maxtermax/hermes-io#context), [hooks](https://github.com/Maxtermax/hermes-io#useobserver-hook) and [observers](https://github.com/Maxtermax/hermes-io#observer).
+
+```
+npm i hermes-io-cli -g
+```
+Check the documentation: [here](https://www.npmjs.com/package/hermes-io-cli)
 
 If you find me work helpful please consider support me at https://www.buymeacoffee.com/maxtermax, that encourage me to continue working on cool open source projects.
