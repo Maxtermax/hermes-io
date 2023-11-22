@@ -113,9 +113,11 @@ Is a method that allows sending notifications to the `subscribers` of a specific
 
 export const ShoppingCar = (props) => {
   const { data = [] } = props;
+
   const handleRemoveProduct = (product) => {
     ProductsObservers.notify({ value: { type: REMOVE_PRODUCT, payload: product }, context: ProductsContext });
   };
+
   return <div>
     <ul>
        {
