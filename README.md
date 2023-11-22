@@ -1,4 +1,4 @@
-# hermes-io ⚡
+# hermes-io
 A lightweight javascript library that allows communication between components by using the observer pattern and the hook api.
 
 # Summary
