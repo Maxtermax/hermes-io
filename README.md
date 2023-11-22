@@ -24,7 +24,7 @@ npm i hermes-io --save
 # Observer
 `hermes-io` provides an `Observer` class to create instances that can be `subscribable` that means many subscribers can listen for notifications on the instance by using the method `subscribe`, check the following example:
 
-We are exporting an `object` with two instances of the class `Observer` each key of the object has invidual propuses one for handle notifications about `add` a product and the other for `remove` a product.
+We are exporting an instance of the class `Observer` called `ProductsObserver` the propuses of this observer is handle notifications for `add` a product and `remove` a product.
 
 ```javascript
 // observers/products.js
@@ -37,10 +37,10 @@ export const ProductsObserver = new Observer();
 `NOTICE` this concept has nothing to do with the `react context api`.
 
 `hermes-io` provides a `Context` class to create instances that can be used to create `notification context` that means that only notification 
-submited on on specific context will be listened otherwise will be ignored, you can think on this like a `whitelist` let's analyze the following example:
+submited on a specific context will be listened otherwise will be ignored, you can think on this like a `whitelist` let's analyze the following example:
 
 In our sneaker store we have a `product list` and a `shopping cart` the user can `add` a `product` to the `shopping cart`
-and also can `remove` a `product`, in both cases the one component can talk to the other by using `notifications` 
+and also can `remove` a `product`, in both cases one component can talk to the other by using `notifications` 
 on one specific observer and update the `ui`, this leads us to any part of the code with access to the observers can trigger `unexpected behaviors`,
 there is when the concept of a `context` comes in, the context constrains the observer by telling which `notifications` must listen.
 
