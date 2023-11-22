@@ -8,8 +8,9 @@ A lightweight javascript library that allows communication between components by
 - [Context](#context)
 - [useObserver](#useobserver-hook)
 - [notify](#notify)
-- [CLI](#hermes-io-cli)
-- [Devtools](https://github.com/Maxtermax/hermes-io-devtools)
+- [Hermes-io CLI](#hermes-io-cli)
+- [Hermes-io inspector - Chrome extension](https://github.com/Maxtermax/hermes-io-devtools)
+  
 ![DevTools](https://raw.githubusercontent.com/Maxtermax/hermes-io-devtools/master/demo.gif)
 
 # Installation
@@ -18,67 +19,38 @@ npm i hermes-io --save
 ```
 
 # Get started
-`hermes-io` is a set of toolkits that combined allows communication between components let's explore every tool by following the [sneaker store example ](https://sneaker-store-1.vercel.app/) ⭐
-[source code](https://github.com/Maxtermax/sneaker-store)
+`hermes-io` is a set of toolkits that combined allows communication between components let's explore every tool by following the [sneaker store demo](https://sneaker-store-1.vercel.app/) - 
 
 # Observer
-`hermes-io` provide an `Observer` class to create instances that can be `subscribable` that means many subscribers can listen for notifications on the instance by using the method `subscribe`, check the following example:
+`hermes-io` provides an `Observer` class to create instances that can be `subscribable` that means many subscribers can listen for notifications on the instance by using the method `subscribe`, check the following example:
 
 We are exporting an `object` with two instances of the class `Observer` each key of the object has invidual propuses one for handle notifications about `add` a product and the other for `remove` a product.
 
 ```javascript
 // observers/products.js
 import { Observer } from "hermes-io";
-
-export default {
-  add: new Observer(),
-  remove: new Observer(),
-};
+ 
+export const ProductsObserver = new Observer();
 ```
 
 # Context
 `NOTICE` this concept has nothing to do with the `react context api`.
 
-`hermes-io` provide a `Context` class to create instances that can be used to create `notification context` that means that only notification 
+`hermes-io` provides a `Context` class to create instances that can be used to create `notification context` that means that only notification 
 submited on on specific context will be listened otherwise will be ignored, you can think on this like a `whitelist` let's analyze the following example:
 
-In our sneaker store we have a `product list` and a `shopping car` the user can `add` a `product` to the `shopping car`
+In our sneaker store we have a `product list` and a `shopping cart` the user can `add` a `product` to the `shopping cart`
 and also can `remove` a `product`, in both cases the one component can talk to the other by using `notifications` 
 on one specific observer and update the `ui`, this leads us to any part of the code with access to the observers can trigger `unexpected behaviors`,
 there is when the concept of a `context` comes in, the context constrains the observer by telling which `notifications` must listen.
 
 ```javascript
 import { Context } from 'hermes-io';
-
-export const products = new Context('Product');
-export const shoppingCar = new Context('ShoppingCar');
-```
- 
-
-```javascript
-const sneakerList = [
-  {
-    id: '1',
-    name: 'Jordan',
-    image: '/assets/images/jordan_3.webp',
-    description: 'Air Jordan 3 Retro OG',
-    price: '250'
-  },
-  {
-    id: '2',
-    image: '/assets/images/addidas.webp',
-    description: 'Bad Bunny Forum Buckle Low sneakers',
-    name: 'Adidas Forum',
-    price: '200'
-  }
-]
-
-const productsStore = new Map();
-productsStore.set('collection', sneakerList); 
+export const ProductsContext = new Context('ProductsContext');
 ```
 
-# useObserver (hook)
-`hermes-io` provide a `react custom hook` to integrate `Observer` with `Context`, this hook can be used to subscribe listeners and receive `notifications` under cetains contrains provided by the `notification context`, let's analize this in detail.
+# useObserver
+`hermes-io` provides a `react custom hook` to integrate `Observer` with `Context`, this hook can be used to subscribe listeners and receive `notifications` under cetains contrains provided by the `notification context`, let's analize this in detail.
 
 | key      | value             | required | description                                                                                                                                                     |
 |----------|-------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -88,55 +60,38 @@ productsStore.set('collection', sneakerList);
 
 
 ```javascript
- import { useObserver } from "hermes-io";
+import { useObserver } from 'hermes-io'
+ 
+export const useProducts = () => {
+  const [products, setProducts] = useState([]);
+
+  const addProduct = (newProduct) => setProducts((prevValue) => [...prevValue, newProduct]);
+  const removeProduct = (product) => setProducts((prevValue) => prevValue.filter(({ id }) => id !== product.id));
+
+  const handleProductsNotification = (event) => {
+    const { value = {} } = event;
+    const { type, payload } = value;
+    if (type === ADD_PRODUCT) addProduct(payload); // update state and add a product
+    if (type === REMOVE_PRODUCT) removeProduct(payload); // update state and remove a product
+  };
   
- useObserver({
-   observer: ProductsObservers.add,
-   listener: handleAddProduct,
-   contexts: [contexts.products],
- });
+  useObserver({
+    contexts: [ProductsContext],
+    observer: ProductsObserver,
+    listener: handleProductsNotification,
+  });
+
+  return products;
+}
 ```
 
 ```javascript
-import React, { useState } from "react";
-import Products from "./components/Products/Products"
-import ShoppingCar from "./components/ShoppingCar/ShoppingCar";
-import { useObserver } from "hermes-io";
-import ProductsObservers from './observers/products';
-import theme from '@theme';
-import * as contexts from './contexts';
-
-const filterSelectes = (collection) => collection.filter((item) => item.selected); //filter selectes products
-
 function App() {
-  const [products, setProducts] = useState(ProductsStore.get('collection'));
-  
-  const handleRemoveProduct = ({ value: product = {} }) => {
-    product.selected = false;
-    setProducts([...ProductsStore.get('collection')]);
-  };
-  
-  const handleAddProduct = ({ value: product = {} }) => {
-    product.selected = true;
-    setProducts([...ProductsStore.get('collection')]);
-  };
-  
-  useObserver({
-    observer: ProductsObservers.add,
-    listener: handleAddProduct,
-    contexts: [contexts.products],
-  });
-  
-  useObserver({
-    observer: ProductsObservers.remove,
-    listener: handleRemoveProduct,
-    contexts: [contexts.shoppingCar, contexts.products],
-  });
-
+  const products = useProducts();
   return (
     <>
-      <ShoppingCar data={filterSelectes(products)} />
-      <Products data={products} />
+      <ShoppingCart data={products} />
+      <Products />
     </>
   );
 }
@@ -154,13 +109,12 @@ Is a method that allows sending notifications to the `subscribers` of a specific
   
 
 ```javascript
-// ShoppingCar.js
-import ProductsObservers from './observers/products';
-import * as contexts from '../contexts';
+// ShoppingCart.js
 
-export const ShoppingCar = (props = {}) => {
-  const handleRemoveProduct = (product = {}) => {
-    ProductsObservers.remove.notify({ value: product, context: contexts.shoppingCar });
+export const ShoppingCar = (props) => {
+  const { data = [] } = props;
+  const handleRemoveProduct = (product) => {
+    ProductsObservers.notify({ value: { type: REMOVE_PRODUCT, payload: product }, context: ProductsContext });
   };
   return <div>
     <ul>
@@ -180,14 +134,11 @@ export const ShoppingCar = (props = {}) => {
 ```
 ```javascript
 // Products.js
-import ProductsObservers from './observers/products';
-import * as contexts from '../contexts';
-
-export const Products = (props = {}) => {
-  const { data = [] } = props; 
+export const Products = () => {
+  const { data = [] } = useStore(); 
   
-  const handleAddProduct = (product = {}) => {
-    ProductsObservers.add.notify({ value: product, context: contexts.products });
+  const handleAddProduct = (product) => {
+    ProductsObservers.notify({ value: { type: ADD_PRODUCT, payload: product }, context: ProductsContext });
   };
   
   return <ul>
@@ -211,6 +162,6 @@ This CLI is the official scaffolding generator for [hermes-io](https://www.npmjs
 ```
 npm i hermes-io-cli -g
 ```
-Check the documentation: [here](https://www.npmjs.com/package/hermes-io-cli)
+[learnmore](https://www.npmjs.com/package/hermes-io-cli)
 
 If you find me work helpful please consider support me at https://www.buymeacoffee.com/maxtermax, that encourage me to continue working on cool open source projects.
