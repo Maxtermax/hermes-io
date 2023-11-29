@@ -13,5 +13,10 @@
 # utils 
 /utils
 
+# test
+/src/context/context.test.js
+/src/observer/observer.test.js
+/src/hooks/useObserver.test.js
+
 # dependencies
 /node_modules
