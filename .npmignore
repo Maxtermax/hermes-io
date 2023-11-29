@@ -14,7 +14,7 @@
 /utils
 
 # test
-/**/**.test.js
+/lib/**/**.test.js
 
 # dependencies
 /node_modules
