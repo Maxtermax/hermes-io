@@ -5,6 +5,9 @@
 
 # testing
 /coverage
+/src/context/context.test.js
+/src/observer/observer.test.js
+/src/hooks/useObserver.test.js
 
 /utils
 
