@@ -3,7 +3,7 @@ A lightweight javascript library that allows communication between components by
 
 # Summary
 - [Installation](#installation)
-- [Get started](#get-started)
+- [Introduction](#instroduction)
 - [Observer](#observer)
 - [Context](#context)
 - [useObserver](#useobserver)
@@ -11,7 +11,8 @@ A lightweight javascript library that allows communication between components by
 - [Hermes-io CLI](#hermes-io-cli)
 - [Tooling](#tooling)
   
-![DevTools](https://raw.githubusercontent.com/Maxtermax/hermes-io-devtools/master/demo.gif)
+https://github.com/Maxtermax/hermes-io-counter-demo/assets/4247989/4b0200ba-4d29-4b2f-9861-47faa0b9639a
+
 
 # Installation
 ```
