@@ -6,10 +6,10 @@ A lightweight javascript library that allows communication between components by
 - [Get started](#get-started)
 - [Observer](#observer)
 - [Context](#context)
-- [useObserver](#useobserver-hook)
+- [useObserver](#useobserver)
 - [notify](#notify)
 - [Hermes-io CLI](#hermes-io-cli)
-- [Hermes-io inspector - Chrome extension](https://github.com/Maxtermax/hermes-io-devtools)
+- [Hermes-io Inspector](#hermes-io-inspector)
   
 ![DevTools](https://raw.githubusercontent.com/Maxtermax/hermes-io-devtools/master/demo.gif)
 
@@ -183,7 +183,9 @@ export const Products = () => {
 };
 ```
 
-# Hermes-io CLI
+# Tooling
+
+## Hermes-io CLI
 This CLI is the official scaffolding generator for [hermes-io](https://www.npmjs.com/package/hermes-io#get-started), its generates a simple folder structure that guaranty separation of concerns encompassing pivotal elements such as: [contexts](https://github.com/Maxtermax/hermes-io#context), [hooks](https://github.com/Maxtermax/hermes-io#useobserver-hook) and [observers](https://github.com/Maxtermax/hermes-io#observer).
 
 ```
@@ -192,11 +194,11 @@ npm i hermes-io-cli -g
 [learnmore](https://www.npmjs.com/package/hermes-io-cli)
 
 
-# Hermes-io Inspector 🔍
+## Hermes-io Inspector 🔍
 Chrome extension that allows inspect and debug in detail events emitted by [hermes-io.js](https://www.npmjs.com/package/hermes-io#get-started) in a friendly UI.
 ![Demo](https://raw.githubusercontent.com/Maxtermax/hermes-io-devtools/master/demo.gif)
-[learnmore](https://chromewebstore.google.com/detail/hermes-io/pjdkgcpikfmkncldipldmimanfkpeedm?hl=en)
 
+[learnmore](https://chromewebstore.google.com/detail/hermes-io/pjdkgcpikfmkncldipldmimanfkpeedm?hl=en)
 
 
 If you find me work helpful please consider support me at https://www.buymeacoffee.com/maxtermax, that encourage me to continue working on cool open source projects.
