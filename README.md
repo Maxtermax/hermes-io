@@ -20,35 +20,34 @@ npm i hermes-io --save
 ```
 
 # Introduction
-`hermes-io` is a set of toolkits that combined allows communication between components let's explore every tool by following the [sneaker store demo](https://sneaker-store-1.vercel.app/) - 
+`hermes-io` is a set of toolkits that combined allows communication between components let's explore every tool by following the demo:
+[counter](https://stackblitz.com/~/github.com/Maxtermax/hermes-io-counter-demo)
 
 
 # Observer
 `hermes-io` provides an `Observer` class to create instances that can be `subscribable` that means many subscribers can listen for notifications on the instance by using the method `subscribe`, check the following example:
 
-We are exporting an instance of the class `Observer` called `ProductsObserver` the propuses of this observer is handle notifications for `add` a product and `remove` a product.
+We are exporting an instance of the class `Observer` called `CounterObserver` the propuses of this observer is handle notifications for `add` a product and `remove` a product.
 
 ```javascript
-// observers/products.js
+// ./src/observers/counter.js
 import { Observer } from "hermes-io";
- 
-export const ProductsObserver = new Observer();
+export const CounterObserver = new Observer();
+
 ```
 
 # Context
-`NOTICE` this concept has nothing to do with the `react context api`.
-
 `hermes-io` provides a `Context` class to create instances that can be used to create `notification context` that means that only notification 
 submited on a specific context will be listened otherwise will be ignored, you can think on this like a `whitelist` let's analyze the following example:
 
-In our sneaker store we have a `product list` and a `shopping cart` the user can `add` a `product` to the `shopping cart`
-and also can `remove` a `product`, in both cases one component can talk to the other by using `notifications` 
-on one specific observer and update the `ui`, this leads us to any part of the code with access to the observers can trigger `unexpected behaviors`,
-there is when the concept of a `context` comes in, the context constrains the observer by telling which `notifications` must listen.
+The context constrains the observer by telling which `notifications` must listen to.
+
+`NOTE:` this concept has nothing to do with the `react context api`.
 
 ```javascript
-import { Context } from 'hermes-io';
-export const ProductsContext = new Context('ProductsContext');
+// ./src/contexts/counter.js
+import { Context } from "hermes-io";
+export const CounterContext = new Context('CounterContext');
 ```
 
 # useObserver
@@ -62,51 +61,92 @@ export const ProductsContext = new Context('ProductsContext');
 
 
 ```javascript
-import { useObserver } from 'hermes-io'
- 
-export const useProducts = () => {
-  const [products, setProducts] = useState([]);
-
-  const addProduct = (newProduct) => {
-    setProducts((prevValue) => [...prevValue, newProduct]);
-  }
-  const removeProduct = (product) => {
-    setProducts((prevValue) => prevValue.filter(({ id }) => id !== product.id));
-  }
-
-  const handleProductsNotification = (event) => {
-    const { value = {} } = event;
-    const { type, payload } = value;
-    if (type === ADD_PRODUCT) addProduct(payload); // update state and add a product
-    if (type === REMOVE_PRODUCT) removeProduct(payload); // update state and remove a product
+// ./src/Counter.jsx
+export function Counter() {
+  const [count, setCount] = useState(0);
+  const handleCounterNotification = (event) => {
+   // handle notification
   };
-  
+
   useObserver({
-    contexts: [ProductsContext],
-    observer: ProductsObserver,
-    listener: handleProductsNotification,
+    contexts: [CounterContext],
+    observer: CounterObserver,
+    listener: handleCounterNotification,
   });
 
-  return products;
+  return <h1>Counter: {count}</h1>;
 }
 ```
+
+## Fine grained updates
+`hermes-io` allows smart and details updates by taking the responsibility of component's communication, using an observable architecture is an interesting alternative to: `prop drilling`, `Flux Pattern`, `useContext`.
+
+Let's explore this concept by the following example:
 
 ```javascript
-function App() {
-  const products = useProducts();
-  return (
-    <>
-      <ShoppingCart data={products} />
-      <Products />
-    </>
-  );
+// ./src/RenderTracker.jsx
+function RenderTracker() {
+  // track re-renders using the `renderCount` 
+  const renderCount = useRef(0);
+  renderCount.current++;
+  return <h2>Re render tracker: {renderCount.current}</h2>;
+}
+```
+
+In the following structure when the parent re-renders all the children will re-render as well, if this behaviour is not the desired typically react provides techniques like [memo](https://react.dev/reference/react/memo) to avoid it, let's explore another proposal to achieve the same result:
+
+```javascript
+// ./src/App.jsx
+
+function Counter({ count }) {
+  return <h1>Count: {count}</h1>;
 }
 
-export default App;
+function App() {
+  const [count, setCount] = useState(0);
+  const increment = () => setCount((prevValue) => prevValue + 1);// increment value and update state
+  const decrement = () => setCount((prevValue) => prevValue - 1);// decrement value and update state
+
+  return (
+    <div>
+      <Counter count={count} />
+      <RenderTracker />
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+    </div>
+  );
+}
+```
+
+![unoptimized](https://raw.githubusercontent.com/Maxtermax/hermes-io-counter-demo/master/src/assets/unoptimized.gif)
+
+an alternative could be move the state inside `Counter` and manage it on events changes:
+
+```javascript
+// ./src/Counter.jsx
+export function Counter() {
+  const [count, setCount] = useState(0);
+  const handleCounterNotification = (event) => {
+    const { value = {} } = event;
+    const { type } = value;
+    if (type === INCREMENT) setCount((prevValue) => prevValue + 1);
+    if (type === DECREMENT) setCount((prevValue) => prevValue - 1);
+  };
+
+  useObserver({
+    contexts: [CounterContext],
+    observer: CounterObserver,
+    listener: handleCounterNotification,
+  });
+
+  return <h1>Counter: {count}</h1>;
+}
 
 ```
-# Notify
-Is a method that allows sending notifications to the `subscribers` of a specific `observer` signed with a `context` that way we create a `notification context`, let's see this in details:
+![optimized](https://raw.githubusercontent.com/Maxtermax/hermes-io-counter-demo/master/src/assets/optimized.gif)
+
+## Notify
+Method that sends notifications to the `subscribers` of a specific `observer` signed with a `context` that way we create a `notification context`, let's see this in details:
   
   | key     | value   | required | description                       |
 |---------|---------|----------|-----------------------------------|
@@ -115,75 +155,39 @@ Is a method that allows sending notifications to the `subscribers` of a specific
   
 
 ```javascript
-// ShoppingCart.js
+// ./src/App.jsx
 
-export const ShoppingCar = (props) => {
-  const { data = [] } = props;
-
-  const handleRemoveProduct = (product) => {
-    ProductsObservers.notify({
-       value: {
-         type: REMOVE_PRODUCT,
-         payload: product
-       },
-       context: ProductsContext
-     });
-  };
-
-  return <div>
-    <ul>
-       {
-         data.map((product = {}) =>
-           <li key={product.id}>
-              <span>{product.name}</<span>
-              <p>{product.description}</p>
-              <small>${product.price}</<small>
-              <button
-                onClick={() => handleRemoveProduct(product)}
-              >
-                Remove
-              </<button>
-           </li>
-         ))
-       }
-    </ul>
-  </div>
-};
-```
-```javascript
-// Products.js
-export const Products = () => {
-  const { data = [] } = useStore(); 
-  
-  const handleAddProduct = (product) => {
-    ProductsObservers.notify({
+function App() {
+  const increment = () => {
+    // notify increment passing the event type: `INCREMENT`
+    CounterObserver.notify({
+      context: CounterContext, 
       value: {
-        type: ADD_PRODUCT,
-        payload: product
+        type: INCREMENT,
       },
-      context: ProductsContext
-     });
+    });
   };
-  
-  return <ul>
-     {
-       data.map((product = {}) =>
-         <li key={product.id}>
-            <span>{product.name}</<span>
-            <p>{product.description}</p>
-            <small>${product.price}</<small>
-            <button
-              disabled={product.selected}
-              onClick={() => handleAddProduct(product)}
-            >
-              Add to car
-            </<button>
-         </li>
-       ))
-     }
-  </ul>
-};
+
+  const decrement = () => {
+    CounterObserver.notify({
+      context: CounterContext, 
+      value: {
+        type: DECREMENT,
+      },
+    });
+  };
+
+  return (
+    <div>
+      <Counter />
+      <RenderTracker />
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+    </div>
+  );
+}
 ```
+
 
 # Tooling
 
