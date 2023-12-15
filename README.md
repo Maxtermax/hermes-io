@@ -8,6 +8,7 @@ A lightweight javascript library that allows communication between components by
 - [Context](#context)
 - [useObserver](#useobserver)
 - [notify](#notify)
+- [demos](#demos)
 - [Hermes-io CLI](#hermes-io-cli)
 - [Tooling](#tooling)
   
@@ -36,6 +37,12 @@ export const CounterObserver = new Observer();
 
 ```
 
+### generate observer (optional)
+To simply things you can generate the observer file using [hermes-io-cli](https://www.npmjs.com/package/hermes-io-cli#observer)
+```
+hermes-io-cli --root="./src" --observer="CounterObserver"
+```
+
 # Context
 `hermes-io` provides a `Context` class to create instances that can be used to create `notification context` that means that only notification 
 submited on a specific context will be listened otherwise will be ignored, you can think on this like a `whitelist` let's analyze the following example:
@@ -48,6 +55,12 @@ The context constrains the observer by telling which `notifications` must listen
 // ./src/contexts/counter.js
 import { Context } from "hermes-io";
 export const CounterContext = new Context('CounterContext');
+```
+
+### generate context (optional)
+To simply things you can generate the observer file using [hermes-io-cli](https://www.npmjs.com/package/hermes-io-cli#context)
+```
+hermes-io-cli --root="./src" --context="CounterContext"
 ```
 
 # useObserver
@@ -78,6 +91,12 @@ export function Counter() {
 }
 ```
 
+### generate hook (optional)
+To simply things you can generate the observer file using [hermes-io-cli](https://www.npmjs.com/package/hermes-io-cli#use-observer)
+```
+hermes-io-cli --root="./src" --hook="useCounter"
+```
+
 ## Fine grained updates
 `hermes-io` allows smart and details updates by taking the responsibility of component's communication, using an observable architecture is an interesting alternative to: `prop drilling`, `Flux Pattern`, `useContext`.
 
@@ -93,7 +112,7 @@ function RenderTracker() {
 }
 ```
 
-In the following structure when the parent re-renders all the children will re-render as well, if this behaviour is not the desired typically react provides techniques like [memo](https://react.dev/reference/react/memo) to avoid it, let's explore another proposal to achieve the same result:
+In the following structure when the parent re-renders all the children will re-render as well, if this behaviour is not the desired typically react provides techniques like [memo](https://react.dev/reference/react/memo) to avoid it, let's explore way to achieve the same result:
 
 ```javascript
 // ./src/App.jsx
@@ -187,7 +206,9 @@ function App() {
   );
 }
 ```
-
+# Demos
+- [Counter](https://stackblitz.com/~/github.com/Maxtermax/hermes-io-counter-demo)
+ - [Sneaker store](https://sneaker-store-1.vercel.app)
 
 # Tooling
 
