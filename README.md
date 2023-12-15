@@ -3,7 +3,7 @@ A lightweight javascript library that allows communication between components by
 
 # Summary
 - [Installation](#installation)
-- [Introduction](#instroduction)
+- [Introduction](#introduction)
 - [Observer](#observer)
 - [Context](#context)
 - [useObserver](#useobserver)
