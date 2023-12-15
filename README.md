@@ -65,8 +65,12 @@ import { useObserver } from 'hermes-io'
 export const useProducts = () => {
   const [products, setProducts] = useState([]);
 
-  const addProduct = (newProduct) => setProducts((prevValue) => [...prevValue, newProduct]);
-  const removeProduct = (product) => setProducts((prevValue) => prevValue.filter(({ id }) => id !== product.id));
+  const addProduct = (newProduct) => {
+    setProducts((prevValue) => [...prevValue, newProduct]);
+  }
+  const removeProduct = (product) => {
+    setProducts((prevValue) => prevValue.filter(({ id }) => id !== product.id));
+  }
 
   const handleProductsNotification = (event) => {
     const { value = {} } = event;
@@ -115,7 +119,13 @@ export const ShoppingCar = (props) => {
   const { data = [] } = props;
 
   const handleRemoveProduct = (product) => {
-    ProductsObservers.notify({ value: { type: REMOVE_PRODUCT, payload: product }, context: ProductsContext });
+    ProductsObservers.notify({
+       value: {
+         type: REMOVE_PRODUCT,
+         payload: product
+       },
+       context: ProductsContext
+     });
   };
 
   return <div>
@@ -126,7 +136,11 @@ export const ShoppingCar = (props) => {
               <span>{product.name}</<span>
               <p>{product.description}</p>
               <small>${product.price}</<small>
-              <button onClick={() => handleRemoveProduct(product)}>Remove</<button>
+              <button
+                onClick={() => handleRemoveProduct(product)}
+              >
+                Remove
+              </<button>
            </li>
          ))
        }
@@ -140,7 +154,13 @@ export const Products = () => {
   const { data = [] } = useStore(); 
   
   const handleAddProduct = (product) => {
-    ProductsObservers.notify({ value: { type: ADD_PRODUCT, payload: product }, context: ProductsContext });
+    ProductsObservers.notify({
+      value: {
+        type: ADD_PRODUCT,
+        payload: product
+      },
+      context: ProductsContext
+     });
   };
   
   return <ul>
@@ -150,7 +170,12 @@ export const Products = () => {
             <span>{product.name}</<span>
             <p>{product.description}</p>
             <small>${product.price}</<small>
-            <button disabled={product.selected} onClick={() => handleAddProduct(product)}>Add to car</<button>
+            <button
+              disabled={product.selected}
+              onClick={() => handleAddProduct(product)}
+            >
+              Add to car
+            </<button>
          </li>
        ))
      }
