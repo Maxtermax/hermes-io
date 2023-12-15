@@ -9,7 +9,7 @@ A lightweight javascript library that allows communication between components by
 - [useObserver](#useobserver)
 - [notify](#notify)
 - [Hermes-io CLI](#hermes-io-cli)
-- [Hermes-io Inspector](#hermes-io-inspector)
+- [Tooling](#tooling)
   
 ![DevTools](https://raw.githubusercontent.com/Maxtermax/hermes-io-devtools/master/demo.gif)
 
