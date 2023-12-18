@@ -229,8 +229,9 @@ npm i hermes-io-cli -g
 
 
 ## Hermes-io Inspector 🔍
-Chrome extension that allows inspect and debug in detail events emitted by [hermes-io.js](https://www.npmjs.com/package/hermes-io#get-started) in a friendly UI.
-![Demo](https://raw.githubusercontent.com/Maxtermax/hermes-io-devtools/master/demo.gif)
+Chrome extension that allows inspect notifications emitted by [hermes-io.js](https://www.npmjs.com/package/hermes-io#get-started) in a friendly UI.
+
+https://github.com/Maxtermax/hermes-io-devtools/assets/4247989/5e7dcaa5-cb0d-4a00-a685-4f65884a071c
 
 [learnmore](https://chromewebstore.google.com/detail/hermes-io/pjdkgcpikfmkncldipldmimanfkpeedm?hl=en)
 
