@@ -1,11 +1,10 @@
 # hermes-io
 A lightweight javascript library that allows communication between components by using the observer pattern and the hook api.
 
-# Highlights
+# Features
 - Lightweight 2.9 kB - MINIFIED, 1.3 kB - MINIFIED + GZIPPED
 - Fine grained updates oriented
 - Tooling: chrome extension + CLI
-
 
 # Summary
 - [Installation](#installation)
@@ -14,7 +13,7 @@ A lightweight javascript library that allows communication between components by
 - [Context](#context)
 - [useObserver](#useobserver)
 - [notify](#notify)
-- [demos](#demos)
+- [examples](#examples)
 - [Hermes-io CLI](#hermes-io-cli)
 - [Tooling](#tooling)
   
@@ -34,7 +33,7 @@ npm i hermes-io --save
 # Observer
 `hermes-io` provides an `Observer` class to create instances that can be `subscribable` that means many subscribers can listen for notifications on the instance by using the method `subscribe`, check the following example:
 
-We are exporting an instance of the class `Observer` called `CounterObserver` the propuses of this observer is handle notifications for `add` a product and `remove` a product.
+We are exporting an instance of the class `Observer` called `CounterObserver` the propuses of this observer is handle notifications for `increment` and `decrement` the count.
 
 ```javascript
 // ./src/observers/counter.js
@@ -118,7 +117,7 @@ function RenderTracker() {
 }
 ```
 
-In the following structure when the parent re-renders all the children will re-render as well, if this behaviour is not the desired typically react provides techniques like [memo](https://react.dev/reference/react/memo) to avoid it, let's explore way to achieve the same result:
+In the following structure when the parent re-renders all the children will re-render as well, if this behaviour is not the desired typically react provides techniques like [memo](https://react.dev/reference/react/memo) to avoid it, let's explore other way to achieve the same result:
 
 ```javascript
 // ./src/App.jsx
@@ -175,8 +174,8 @@ Method that sends notifications to the `subscribers` of a specific `observer` si
   
   | key     | value   | required | description                       |
 |---------|---------|----------|-----------------------------------|
-| value   | any     | true     | Payload with business information |
-| context | context | true     | A context instance                |
+| value   | any     | true     | payload |
+| context | new Context('MyContext') | true     | context instance                |
   
 
 ```javascript
@@ -212,7 +211,9 @@ function App() {
   );
 }
 ```
-# Demos
+https://github.com/Maxtermax/hermes-io-counter-demo/assets/4247989/4b0200ba-4d29-4b2f-9861-47faa0b9639a
+
+# Examples
 - [Counter](https://stackblitz.com/~/github.com/Maxtermax/hermes-io-counter-demo)
 - [Sneaker store](https://sneaker-store-1.vercel.app)
 
