@@ -17,8 +17,7 @@ A lightweight javascript library that allows communication between components by
 - [Hermes-io CLI](#hermes-io-cli)
 - [Tooling](#tooling)
   
-https://github.com/Maxtermax/hermes-io-counter-demo/assets/4247989/4b0200ba-4d29-4b2f-9861-47faa0b9639a
-
+https://github.com/Maxtermax/hermes-io-counter-demo/assets/4247989/9cfe8c85-df0f-4a23-86af-cf568287bb75
 
 # Installation
 ```
@@ -211,7 +210,7 @@ function App() {
   );
 }
 ```
-https://github.com/Maxtermax/hermes-io-counter-demo/assets/4247989/4b0200ba-4d29-4b2f-9861-47faa0b9639a
+https://github.com/Maxtermax/hermes-io-counter-demo/assets/4247989/9cfe8c85-df0f-4a23-86af-cf568287bb75
 
 # Examples
 - [Counter](https://stackblitz.com/~/github.com/Maxtermax/hermes-io-counter-demo)
