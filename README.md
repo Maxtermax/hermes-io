@@ -14,8 +14,7 @@ A lightweight javascript library that allows communication between components by
 - [useObserver](#useobserver)
 - [notify](#notify)
 - [examples](#examples)
-- [Hermes-io CLI](#hermes-io-cli)
-- [Tooling](#tooling)
+- [Toolkit](#toolkit)
   
 https://github.com/Maxtermax/hermes-io-counter-demo/assets/4247989/9cfe8c85-df0f-4a23-86af-cf568287bb75
 
@@ -216,7 +215,7 @@ https://github.com/Maxtermax/hermes-io-counter-demo/assets/4247989/9cfe8c85-df0f
 - [Counter](https://stackblitz.com/~/github.com/Maxtermax/hermes-io-counter-demo)
 - [Sneaker store](https://sneaker-store-1.vercel.app)
 
-# Tooling
+# Toolkit
 
 ## Hermes-io CLI
 This CLI is the official scaffolding generator for [hermes-io](https://www.npmjs.com/package/hermes-io#get-started), its generates a simple folder structure that guaranty separation of concerns encompassing pivotal elements such as: [contexts](https://github.com/Maxtermax/hermes-io#context), [hooks](https://github.com/Maxtermax/hermes-io#useobserver-hook) and [observers](https://github.com/Maxtermax/hermes-io#observer).
@@ -224,7 +223,7 @@ This CLI is the official scaffolding generator for [hermes-io](https://www.npmjs
 ```
 npm i hermes-io-cli -g
 ```
-[learnmore](https://www.npmjs.com/package/hermes-io-cli)
+documentation: [here](https://www.npmjs.com/package/hermes-io-cli)
 
 
 ## Hermes-io Inspector 🔍
@@ -232,7 +231,7 @@ Chrome extension that allows inspect notifications emitted by [hermes-io.js](htt
 
 https://github.com/Maxtermax/hermes-io-devtools/assets/4247989/5e7dcaa5-cb0d-4a00-a685-4f65884a071c
 
-[learnmore](https://chromewebstore.google.com/detail/hermes-io/pjdkgcpikfmkncldipldmimanfkpeedm?hl=en)
+install extension: [here](https://chromewebstore.google.com/detail/hermes-io/pjdkgcpikfmkncldipldmimanfkpeedm?hl=en)
 
 
 If you find me work helpful please consider support me at https://www.buymeacoffee.com/maxtermax, that encourage me to continue working on cool open source projects.
