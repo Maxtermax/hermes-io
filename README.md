@@ -2,9 +2,9 @@
 A lightweight javascript library that allows communication between components by using the observer pattern and the hook api.
 
 # Features
-- Lightweight 2.9 kB - MINIFIED, 1.3 kB - MINIFIED + GZIPPED
-- Fine grained updates oriented
-- Tooling: chrome extension + CLI
+- 🏎️ Lightweight 2.9 kB - MINIFIED, 1.3 kB - MINIFIED + GZIPPED
+- 🧠 Fine grained updates oriented
+- 🛠️ Tooling: chrome extension + CLI
 
 # Summary
 - [Installation](#installation)
