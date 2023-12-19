@@ -24,7 +24,7 @@ npm i hermes-io --save
 ```
 
 # Introduction
-`hermes-io` is a set of toolkits that combined allows communication between components let's explore every tool by following the demo:
+`hermes-io` is a set of tools that allows communication between components let's explore every tool by following the demo:
 [counter](https://stackblitz.com/~/github.com/Maxtermax/hermes-io-counter-demo)
 
 
