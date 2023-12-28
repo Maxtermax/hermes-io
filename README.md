@@ -1,6 +1,9 @@
 # hermes-io
 A lightweight javascript library that allows communication between components by using the observer pattern and the hook api.
 
+https://github.com/Maxtermax/hermes-io-counter-demo/assets/4247989/9cfe8c85-df0f-4a23-86af-cf568287bb75
+
+
 # Features
 - 🏎️ Lightweight 2.9 kB - MINIFIED, 1.3 kB - MINIFIED + GZIPPED
 - 🧠 Fine grained updates oriented
@@ -16,8 +19,6 @@ A lightweight javascript library that allows communication between components by
 - [examples](#examples)
 - [Toolkit](#toolkit)
   
-https://github.com/Maxtermax/hermes-io-counter-demo/assets/4247989/9cfe8c85-df0f-4a23-86af-cf568287bb75
-
 # Installation
 ```
 npm i hermes-io --save
