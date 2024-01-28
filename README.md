@@ -5,26 +5,26 @@ A lightweight React library that allows communication between components by usin
 npm i hermes-io --save
 ```
 
-## Check the documentation: [here](https://hermes-io-docs.vercel.app/)
+Check the documentation: [here](https://hermes-io-docs.vercel.app/)
 
-https://github.com/Maxtermax/hermes-io-counter-demo/assets/4247989/9cfe8c85-df0f-4a23-86af-cf568287bb75
-
-# Toolkit
-
-## Hermes-io CLI
+# Hermes-io CLI
 This CLI is the official scaffolding generator for [hermes-io](https://www.npmjs.com/package/hermes-io#get-started), its generates a simple folder structure that guaranty separation of concerns encompassing pivotal elements such as: [contexts](https://github.com/Maxtermax/hermes-io#context), [hooks](https://github.com/Maxtermax/hermes-io#useobserver-hook) and [observers](https://github.com/Maxtermax/hermes-io#observer).
 
 ```
 npm i hermes-io-cli -g
 ```
-Check the documentation: [here](https://hermes-io-docs.vercel.app/docs/basics/Toolkit#installation)
+
+Check the documentation: [here](https://hermes-io-docs.vercel.app/docs/basics/Toolkit#usage)
 
 ## Chrome extension
 Install from chrome web store [here](https://chrome.google.com/webstore/detail/hermes-io/pjdkgcpikfmkncldipldmimanfkpeedm?hl=en)
 
 ![chrome extension](https://raw.githubusercontent.com/Maxtermax/hermes-io-devtools/master/demo.gif) 
  
-# Contributing: 
+## Documentation: 
+https://github.com/Maxtermax/hermes-io#readme
+
+## Contributing: 
 Feel free to open a PR explaining your changes, this library is open to suggestions and improvements.
 
 https://github.com/Maxtermax/hermes-io
