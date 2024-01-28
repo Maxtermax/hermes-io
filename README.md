@@ -21,9 +21,6 @@ Install from chrome web store [here](https://chrome.google.com/webstore/detail/h
 
 ![chrome extension](https://raw.githubusercontent.com/Maxtermax/hermes-io-devtools/master/demo.gif) 
  
-## Documentation: 
-https://github.com/Maxtermax/hermes-io#readme
-
 ## Contributing: 
 Feel free to open a PR explaining your changes, this library is open to suggestions and improvements.
 
