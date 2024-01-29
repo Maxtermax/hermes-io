@@ -6,7 +6,7 @@
   "module": "./lib/index.js",
   "scripts": {
     "test": "jest",
-    "prepare": "swc ./src -d ./lib && cp ./utils/README.md ./README.md"
+    "prepare": "swc ./src -d ./lib"
   },
   "exports": {
     ".": {
