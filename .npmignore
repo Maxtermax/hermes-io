@@ -16,5 +16,7 @@
 # test
 /lib/**/**.test.js
 
+/__test__
+
 # dependencies
 /node_modules
