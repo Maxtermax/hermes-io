@@ -1,4 +1,5 @@
-import { Context } from "./Context";
+import { vi } from 'vitest';
+import { Context } from "../src/context/context";
 
 describe("Context", () => {
   let context;
@@ -13,7 +14,7 @@ describe("Context", () => {
 
   test("update method updates context properties", () => {
     const value = "test value";
-    const listener = jest.fn();
+    const listener = vi.fn();
     context.update({ value, listener });
 
     expect(context.date).toBeInstanceOf(Date);

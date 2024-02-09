@@ -1,4 +1,4 @@
-import { Observer } from "./observer";
+import { Observer } from "../src/observer/observer";
 
 describe("Observer", () => {
   let observer;
@@ -7,8 +7,8 @@ describe("Observer", () => {
 
   beforeEach(() => {
     observer = new Observer();
-    callback1 = jest.fn();
-    callback2 = jest.fn();
+    callback1 = vi.fn();
+    callback2 = vi.fn();
   });
 
   afterEach(() => {

@@ -3,7 +3,7 @@
   "jsc": {
     "parser": {
       "syntax": "ecmascript",
-      "jsx": false
+      "jsx": true 
     },
     "target": "es5",
     "loose": true,
