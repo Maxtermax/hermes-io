@@ -5,8 +5,8 @@ export function withReactive({ context, observer, values = {} }) {
   return function Reactive(props) {
     const [_, rerender] = useState(false);
     const handleNotification = (event) => {
-      const { type, value } = event.value;
-      if (props.id === type) {
+      const { id, value } = event.value;
+      if (props.id === id) {
         values = { ...values, ...value };
         rerender((prevVal) => !prevVal);
       }

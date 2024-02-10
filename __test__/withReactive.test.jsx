@@ -26,7 +26,7 @@ test("Should re-render on notification", async () => {
   TestObserver.notify({
     context: TestContext,
     value: {
-      type: "test2",
+      id: "test2",
       value: { title: "new title" },
     },
   });
