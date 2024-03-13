@@ -10,6 +10,7 @@ export default defineConfig({
   },
   test: {
     globals: true,
+    testTimeout: 5000,
     environment: "happy-dom",
     setupFiles: "./vitest-setup.js",
   },

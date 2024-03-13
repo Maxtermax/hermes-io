@@ -1,5 +1,5 @@
 export * from "./hooks";
 export * from "./observer/observer";
 export * from "./context/context";
-export * from "./components/withReactive/withReactive";
+export * from "./store/store";
 export * from "./components/withNotify/withNotify";
