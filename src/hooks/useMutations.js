@@ -1,6 +1,8 @@
 import { useState, useRef } from "react";
 import { useObserver } from "../hooks/useObserver";
 
+const randomId = () => crypto?.randomUUID?.() || Math.random().toString(36).substring(2, 16);
+
 export const useMutations = ({
   store,
   id,
@@ -8,7 +10,7 @@ export const useMutations = ({
   noUpdate = false,
   onChange,
 }) => {
-  const [_, rerender] = useState(false);
+  const [_, rerender] = useState(randomId());
   const value = useRef(null);
 
   const handleNotification = (e, resolver) => {
@@ -19,7 +21,7 @@ export const useMutations = ({
           (!e.value.targets || e.value.targets.includes(id)) &&
           noUpdate === false
         ) {
-          rerender((prevVal) => !prevVal);
+          rerender(randomId());
         }
         onChange?.(value, resolver);
       }
