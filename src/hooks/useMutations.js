@@ -17,13 +17,13 @@ export const useMutations = ({
     for (const event of events) {
       if (e.value.type === event) {
         const value = e.value?.payload?.value;
+        onChange?.(value, resolver);
         if (
           (!e.value.targets || e.value.targets.includes(id)) &&
           noUpdate === false
         ) {
           rerender(randomId());
         }
-        onChange?.(value, resolver);
       }
     }
   };
