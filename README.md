@@ -30,8 +30,8 @@ function App({ notify }) {
   );
 };
 export default withNotify(App, {
-	context: CounterContext,
-	observer: CounterObserver
+  context: CounterContext,
+  observer: CounterObserver
 });
 ```
 
