@@ -1,37 +1,39 @@
-import { useState, useRef } from "react";
-import { useObserver } from "../hooks/useObserver";
+import { useState } from "react";
+import { useObserver } from "hermes-io";
 
 const randomId = () =>
   crypto?.randomUUID?.() || Math.random().toString(36).substring(2, 16);
 
-export const useMutations = (props = {}) => {
-  const [_, rerender] = useState(randomId());
-  const value = useRef(null);
+export const useMutations = (args = {}) => {
+  const { events, onChange, store } = args;
+  const [renderId, setReRenderId] = useState(randomId());
 
-  const setNoUpdate = (value) => (props.noUpdate = value);
+  const setNoUpdate = (value) => (args.noUpdate = value);
 
   const handleNotification = (e, resolver) => {
-    for (const event of props.events) {
-      if (e.value.type === event) {
-        const value = e.value?.payload?.value;
-        const hasNotTargets = !e.value?.targets;
-        e?.value?.targets?.forEach?.(
-          (target) =>
-            target === props.id &&
-            props?.onChange?.(value, resolver, setNoUpdate)
-        );
-        if (hasNotTargets) props.onChange?.(value, resolver, setNoUpdate);
-        if (props.noUpdate === true) continue;
-        rerender(randomId());
-      }
+    for (const event of events) {
+      if (e.value.type !== event) continue;
+      const value = e.value?.payload?.value;
+      const targets = e.value?.targets;
+      const hasNotTargets = !targets;
+      let match = false;
+      targets?.forEach?.((target) => {
+        if (target === args.id) {
+          match = true;
+          onChange?.(value, resolver, setNoUpdate);
+        }
+      });
+      if (hasNotTargets) onChange?.(value, resolver, setNoUpdate);
+      if (args.noUpdate === true || match === false) continue;
+      setReRenderId(randomId());
     }
   };
 
   useObserver({
     listener: handleNotification,
-    contexts: [props.store.context],
-    observer: props.store.observer,
+    contexts: [store.context],
+    observer: store.observer,
   });
 
-  return value;
+  return renderId;
 };

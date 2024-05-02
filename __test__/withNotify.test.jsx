@@ -12,7 +12,7 @@ const Wrapper = withNotify((props) => <h1>{Object.keys(props)}</h1>, {
   observer: TestObserver,
 });
 
-test("Should add ", () => {
+test("Should render notify component", () => {
   render(<Wrapper />);
   const node = screen.getByText(/notify/gi);
   expect(node).toBeInTheDocument();
