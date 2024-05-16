@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useObserver } from "hermes-io";
+import { useObserver } from "../hooks/useObserver";
 
 const randomId = () =>
   crypto?.randomUUID?.() || Math.random().toString(36).substring(2, 16);
