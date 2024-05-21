@@ -225,7 +225,4 @@ describe("useMutations", () => {
     });
     expect(mutation.result.current.state).toStrictEqual({});
   });
-
-
-
 });

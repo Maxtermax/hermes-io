@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useObserver } from "../hooks/useObserver";
 
 const randomId = () =>
@@ -7,7 +7,7 @@ const randomId = () =>
 export const useMutations = (args = {}) => {
   const { events, onChange, store, initialState = {} } = args;
   const [_renderId, setReRenderId] = useState(randomId());
-  let mutation = { state: { ...initialState } };
+  let mutation = useRef({ state: { ...initialState } });
 
   const setNoUpdate = (value) => (args.noUpdate = value);
 
@@ -22,15 +22,14 @@ export const useMutations = (args = {}) => {
         if (target === args.id) {
           match = true;
           const result =
-            onChange?.(value, resolver, setNoUpdate, mutation.state) ??
-            {};
-          mutation.state = { ...mutation.state, ...result };
+            onChange?.(value, resolver, setNoUpdate, mutation.current.state) ?? {};
+          mutation.current.state = { ...mutation.current.state, ...result };
         }
       });
       if (hasNotTargets) {
         const result =
-          onChange?.(value, resolver, setNoUpdate, mutation.state) ?? {};
-        mutation.state = { ...mutation.state, ...result };
+          onChange?.(value, resolver, setNoUpdate, mutation.current.state) ?? {};
+        mutation.current.state = { ...mutation.current.state, ...result };
       }
       if (args.noUpdate === true || match === false) continue;
       setReRenderId(randomId());
@@ -42,6 +41,5 @@ export const useMutations = (args = {}) => {
     contexts: [store.context],
     observer: store.observer,
   });
-
-  return mutation;
+  return mutation.current;
 };
