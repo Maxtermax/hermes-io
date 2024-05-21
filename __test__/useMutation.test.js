@@ -144,4 +144,88 @@ describe("useMutations", () => {
 
     await useReRender(mutation, () => expect(true).toBe(true));
   });
+
+  test("Check computed mutation state", async () => {
+    const id = "exampleId";
+    const events = [CONSTANTS.UPDATE_NAME];
+    const onChange = (_value, _resolver, _setNoUpdate, prevState) => ({
+      name: prevState.name + " doe",
+      age: prevState.age + 10,
+    });
+    const data = { name: "" };
+    const { result } = await renderHook(() =>
+      useStore({ store, reducer, data })
+    );
+    const mutation = renderHook(() =>
+      useMutations({
+        store,
+        id,
+        events,
+        noUpdate: true,
+        onChange,
+        initialState: { name: "john", age: 28 },
+      })
+    );
+    result.current.mutate({
+      type: CONSTANTS.UPDATE_NAME,
+      payload: { value: "test" },
+    });
+    expect(mutation.result.current.state.name).toBe("john doe");
+    expect(mutation.result.current.state.age).toBe(38);
+  });
+
+  test("Check computed value", async () => {
+    const id = "exampleId";
+    const events = [CONSTANTS.UPDATE_NAME];
+    const onChange = (_value, _resolver, _setNoUpdate) => ({
+      name: "john",
+      age: 38,
+    });
+    const data = { name: "" };
+    const { result } = await renderHook(() =>
+      useStore({ store, reducer, data })
+    );
+    const mutation = renderHook(() =>
+      useMutations({
+        store,
+        id,
+        events,
+        noUpdate: true,
+        onChange,
+      })
+    );
+    result.current.mutate({
+      type: CONSTANTS.UPDATE_NAME,
+      payload: { value: "test" },
+    });
+    expect(mutation.result.current.state.name).toBe("john");
+    expect(mutation.result.current.state.age).toBe(38);
+  });
+
+  test("Check none computed value", async () => {
+    const id = "exampleId";
+    const events = [CONSTANTS.UPDATE_NAME];
+    const onChange = (_value, _resolver, _setNoUpdate) => {};
+    const data = { name: "" };
+    const { result } = await renderHook(() =>
+      useStore({ store, reducer, data })
+    );
+    const mutation = renderHook(() =>
+      useMutations({
+        store,
+        id,
+        events,
+        noUpdate: true,
+        onChange,
+      })
+    );
+    result.current.mutate({
+      type: CONSTANTS.UPDATE_NAME,
+      payload: { value: "test" },
+    });
+    expect(mutation.result.current.state).toStrictEqual({});
+  });
+
+
+
 });

@@ -5,8 +5,9 @@ const randomId = () =>
   crypto?.randomUUID?.() || Math.random().toString(36).substring(2, 16);
 
 export const useMutations = (args = {}) => {
-  const { events, onChange, store } = args;
-  const [renderId, setReRenderId] = useState(randomId());
+  const { events, onChange, store, initialState = {} } = args;
+  const [_renderId, setReRenderId] = useState(randomId());
+  let mutation = { state: { ...initialState } };
 
   const setNoUpdate = (value) => (args.noUpdate = value);
 
@@ -20,10 +21,17 @@ export const useMutations = (args = {}) => {
       targets?.forEach?.((target) => {
         if (target === args.id) {
           match = true;
-          onChange?.(value, resolver, setNoUpdate);
+          const result =
+            onChange?.(value, resolver, setNoUpdate, mutation.state) ??
+            {};
+          mutation.state = { ...mutation.state, ...result };
         }
       });
-      if (hasNotTargets) onChange?.(value, resolver, setNoUpdate);
+      if (hasNotTargets) {
+        const result =
+          onChange?.(value, resolver, setNoUpdate, mutation.state) ?? {};
+        mutation.state = { ...mutation.state, ...result };
+      }
       if (args.noUpdate === true || match === false) continue;
       setReRenderId(randomId());
     }
@@ -35,5 +43,5 @@ export const useMutations = (args = {}) => {
     observer: store.observer,
   });
 
-  return renderId;
+  return mutation;
 };
