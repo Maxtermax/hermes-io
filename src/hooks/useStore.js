@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
 export function useStore({ store, reducer, data }) {
   const mutate = useCallback(({ type, payload, targets }) => {
@@ -14,6 +14,10 @@ export function useStore({ store, reducer, data }) {
   if (!store.state) store.state = data;
   store.mutate = mutate;
   store.query = query;
+
+  useEffect(() => {
+    return () => store?.removeFromCollection?.();
+  }, []);
 
   return { query, mutate, state: store.state };
 }
