@@ -19,7 +19,7 @@ export class Store {
 
 export class MicroStore {
   collection = new Map();
-  add = (id, store) => {
+  add = (id, store) => () => {
     this.collection.set(id, store);
     store.removeFromCollection = () => this.collection.delete(id);
     return store;
