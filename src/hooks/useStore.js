@@ -15,7 +15,7 @@ export function useStore(args) {
   store.mutate = mutate;
   store.query = query;
   useEffect(() => {
-    storeMap?.add?.(store);
+    storeMap?.add?.(store.id, store);
     return () => storeMap?.remove?.(store?.id);
   }, [args]);
 
