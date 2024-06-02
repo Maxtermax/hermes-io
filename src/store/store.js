@@ -1,10 +1,12 @@
 export class Store {
   context = null;
   observer = null;
+  id = null;
   state;
-  constructor({ context, observer }) {
+  constructor({ context, observer, id }) {
     this.context = context;
     this.observer = observer;
+    this.id = id;
   }
   notify = (value) => this.observer.notify({ context: this.context, value });
   query = () =>
@@ -19,10 +21,10 @@ export class Store {
 
 export class MicroStore {
   collection = new Map();
-  add = (id, store) => () => {
+  add = (id, store) => {
     this.collection.set(id, store);
-    store.removeFromCollection = () => this.collection.delete(id);
     return store;
   };
+  remove = (id) => this.collection.delete(id);
   get = (id) => this.collection.get(id);
 }
