@@ -11,14 +11,13 @@ export function useStore(args) {
     (cb, defaultValue) => cb(store) ?? defaultValue,
     []
   );
-
+  if (!store.state) store.state = data;
+  store.mutate = mutate;
+  store.query = query;
   useEffect(() => {
-    if (!store.state) store.state = data;
-    store.mutate = mutate;
-    store.query = query;
     storeMap?.add?.(store);
     return () => storeMap?.remove?.(store?.id);
   }, [args]);
 
-  return { query, mutate };
+  return { query, mutate, store };
 }
