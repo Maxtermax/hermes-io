@@ -1,7 +1,9 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 export function useStore(args) {
-  const { store, storeMap, reducer, data } = args;
+  const { storeMap, reducer, data } = args;
+  const storeRef = useRef(args.store);
+  const store = storeRef.current;
   const mutate = useCallback(({ type, payload, targets }) => {
     const newState = reducer(store.state, { type, payload });
     return store.notify({ type, payload, state: newState, targets });
@@ -15,7 +17,7 @@ export function useStore(args) {
   store.mutate = mutate;
   store.query = query;
   useEffect(() => {
-    storeMap?.add?.(store.id, store);
+    storeMap?.add?.(store?.id, store);
     return () => storeMap?.remove?.(store?.id);
   }, [args]);
 
