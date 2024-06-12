@@ -1,15 +1,15 @@
-import { useState, useRef } from "react";
-import { useObserver } from "../hooks/useObserver";
+import { useState, useRef } from 'react';
+import { useObserver } from "./useObserver";
 
 const randomId = () =>
   crypto?.randomUUID?.() || Math.random().toString(36).substring(2, 16);
 
-export const useMutations = (args = {}) => {
-  const { events, onChange, store, initialState = {} } = args;
+export const useMutations = (props = {}) => {
+  const { events, onChange, store, id, initialState = {} } = props;
   const [_renderId, setReRenderId] = useState(randomId());
   let mutation = useRef({ state: { ...initialState } });
 
-  const setNoUpdate = (value) => (args.noUpdate = value);
+  const setNoUpdate = (value) => (props.noUpdate = value);
 
   const handleNotification = (e, resolver) => {
     for (const event of events) {
@@ -19,27 +19,31 @@ export const useMutations = (args = {}) => {
       const hasNotTargets = !targets;
       let match = false;
       targets?.forEach?.((target) => {
-        if (target === args.id) {
+        if (target === props.id) {
           match = true;
           const result =
-            onChange?.(value, resolver, setNoUpdate, mutation.current.state) ?? {};
+            onChange?.(value, resolver, setNoUpdate, mutation.current.state) ??
+            {};
           mutation.current.state = { ...mutation.current.state, ...result };
         }
       });
       if (hasNotTargets) {
         const result =
-          onChange?.(value, resolver, setNoUpdate, mutation.current.state) ?? {};
+          onChange?.(value, resolver, setNoUpdate, mutation.current.state) ??
+          {};
         mutation.current.state = { ...mutation.current.state, ...result };
       }
-      if (args.noUpdate === true || match === false) continue;
+      if (props.noUpdate === true || match === false) continue;
       setReRenderId(randomId());
     }
   };
 
   useObserver({
+    id,
+    microStore: store,
     listener: handleNotification,
-    contexts: [store.context],
-    observer: store.observer,
+    contexts: [store?.context],
+    observer: store?.observer,
   });
   return mutation.current;
 };

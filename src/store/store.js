@@ -1,12 +1,15 @@
+import { Observer } from "../observer/observer";
+
 export class Store {
   context = null;
   observer = null;
   id = null;
   state;
-  constructor({ context, observer, id }) {
+  constructor({ context, observer, id, initialState = {} }) {
+    this.id = id;
     this.context = context;
     this.observer = observer;
-    this.id = id;
+    this.state = initialState;
   }
   notify = (value) => this.observer.notify({ context: this.context, value });
   query = () =>
@@ -19,7 +22,7 @@ export class Store {
     );
 }
 
-export class MicroStore {
+export class MicroStore extends Observer {
   collection = new Map();
   add = (id, store) => {
     this.collection.set(id, store);
