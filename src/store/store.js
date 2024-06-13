@@ -5,11 +5,10 @@ export class Store {
   observer = null;
   id = null;
   state;
-  constructor({ context, observer, id, initialState = {} }) {
+  constructor({ context, observer, id }) {
     this.id = id;
     this.context = context;
     this.observer = observer;
-    this.state = initialState;
   }
   notify = (value) => this.observer.notify({ context: this.context, value });
   query = () =>

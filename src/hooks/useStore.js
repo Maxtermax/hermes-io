@@ -13,9 +13,7 @@ export function useStore(props) {
     (cb, defaultValue) => cb(store) ?? defaultValue,
     []
   ));
-  if (!store.state) {
-    store.state = { ...data, ...(store.state ?? {}) };
-  }
+  if (!store.state) store.state = data;
   useEffect(() => {
     microStore?.add?.(store?.id, store);
     microStore?.notify?.();
