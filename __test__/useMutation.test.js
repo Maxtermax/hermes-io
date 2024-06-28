@@ -161,7 +161,7 @@ describe("useMutations", () => {
         store,
         id,
         events,
-        noUpdate: true,
+        noUpdate: false,
         onChange,
         initialState: { name: "john", age: 28 },
       })
@@ -190,7 +190,7 @@ describe("useMutations", () => {
         store,
         id,
         events,
-        noUpdate: true,
+        noUpdate: false,
         onChange,
       })
     );

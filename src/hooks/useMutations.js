@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef } from "react";
 import { useObserver } from "./useObserver";
 
 const randomId = () =>
@@ -21,16 +21,18 @@ export const useMutations = (props = {}) => {
       targets?.forEach?.((target) => {
         if (target === props.id) {
           match = true;
-          const result =
+          let result =
             onChange?.(value, resolver, setNoUpdate, mutation.current.state) ??
             {};
+          if (props.noUpdate) result = {};
           mutation.current.state = { ...mutation.current.state, ...result };
         }
       });
       if (hasNotTargets) {
-        const result =
+        let result =
           onChange?.(value, resolver, setNoUpdate, mutation.current.state) ??
           {};
+        if (props.noUpdate) result = {};
         mutation.current.state = { ...mutation.current.state, ...result };
       }
       if (props.noUpdate === true || match === false) continue;
