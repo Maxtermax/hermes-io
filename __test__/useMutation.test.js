@@ -176,11 +176,7 @@ describe("useMutations", () => {
 
   test("Check computed value", async () => {
     const id = "exampleId";
-    const events = [CONSTANTS.UPDATE_NAME];
-    const onChange = (_value, _resolver, _setNoUpdate) => ({
-      name: "john",
-      age: 38,
-    });
+    const event = CONSTANTS.UPDATE_NAME;
     const data = { name: "" };
     const { result } = await renderHook(() =>
       useStore({ store, reducer, data })
@@ -189,17 +185,30 @@ describe("useMutations", () => {
       useMutations({
         store,
         id,
-        events,
         noUpdate: false,
-        onChange,
       })
     );
+    mutation.result.current.onEvent(event, () => ({
+      name: "john",
+      age: 38,
+    }));
     result.current.mutate({
-      type: CONSTANTS.UPDATE_NAME,
+      type: event,
       payload: { value: "test" },
     });
     expect(mutation.result.current.state.name).toBe("john");
     expect(mutation.result.current.state.age).toBe(38);
+
+    mutation.result.current.onEvent(event, () => ({
+      name: "john2",
+      age: 40,
+    }));
+    result.current.mutate({
+      type: event,
+      payload: { value: "test" },
+    });
+    expect(mutation.result.current.state.name).toBe("john2");
+    expect(mutation.result.current.state.age).toBe(40);
   });
 
   test("Check none computed value", async () => {

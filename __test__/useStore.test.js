@@ -1,7 +1,9 @@
 import { renderHook } from "@testing-library/react-hooks/dom";
 import { useStore } from "../src/hooks/useStore";
+import { Context } from "../src/context/context";
+import { Observer } from "../src/observer/observer";
 import { describe } from "vitest";
-import { MicroStore } from "../src/store/store";
+import { MicroStore, Store } from "../src/store/store";
 
 describe("useStore", () => {
   let store;
@@ -46,9 +48,16 @@ describe("useStore", () => {
     const micro = new MicroStore();
     const data = { name: "test" };
     const id = 1;
+    const store = new Store({
+      id,
+      context: new Context("Test"),
+      observer: new Observer(),
+    });
     await renderHook(() =>
       useStore({
-        store: micro.add(id, store),
+        id,
+        microStore: micro,
+        store,
         reducer,
         data,
       })
