@@ -14,6 +14,6 @@ export const useStoreFactory = (id, data, reducer, microStore) => {
     data,
   };
   if (microStore) payload.microStore = microStore;
-  const store = useStore(payload);
+  const { store } = useStore(payload);
   return { store };
 };
