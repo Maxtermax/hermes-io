@@ -31,7 +31,7 @@ export default function reducer(store, action) {
 ```javascript
 import { useObservableStore } from "hermes-io";
 import { store, storeId } from "@/store";
-import { reducer } from "@/reducer";
+import reducer, { actions } from "@/reducer";
 
 export default function App() {
   useObservableStore(storeId, { count: 0 }, reducer, store);
