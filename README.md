@@ -16,18 +16,16 @@ const actions = {
 };
 
 export default function reducer(store, action) {
-  switch (action.payload.type) {
-    case actions.INCREMENT:
+  const actionsMap = {
+    [actions.INCREMENT]: () => {
       store.state.count += 1;
-      break;
-    case actions.DECREMENT:
+    },
+   [actions.DECREMENT]: () => {
       store.state.count -= 1;
-      break;
-    default:
-      throw new Error(`Unknown action type: ${action.payload.type}`);
-  }
-  return store.state;
-}
+    },
+  };
+  return actionsMap[action.payload.type]();
+};
 ```
 
 ```javascript
