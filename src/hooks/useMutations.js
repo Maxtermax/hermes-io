@@ -10,11 +10,11 @@ export const useMutations = (props = {}) => {
   let mutation = useRef({
     state: { ...initialState },
     events: [],
-    onEvent: (event, onChange) =>
-      (mutation.current.events = [
-        ...mutation.current.events,
-        { event, onChange },
-      ]),
+    onEvent: (event, onChange) => {
+      const events = mutation.current.events;
+      const isAlreadyIn = events.some((item) => item.event === event);
+      if (!isAlreadyIn) events.push({ event, onChange });
+    },
   });
 
   const setNoUpdate = (value) => (props.noUpdate = value);

@@ -199,7 +199,15 @@ describe("useMutations", () => {
     expect(mutation.result.current.state.name).toBe("john");
     expect(mutation.result.current.state.age).toBe(38);
 
-    mutation.result.current.onEvent(event, () => ({
+    const mutation2 = renderHook(() =>
+      useMutations({
+        store,
+        id,
+        noUpdate: false,
+      })
+    );
+
+    mutation2.result.current.onEvent(event, () => ({
       name: "john2",
       age: 40,
     }));
@@ -207,8 +215,8 @@ describe("useMutations", () => {
       type: event,
       payload: { value: "test" },
     });
-    expect(mutation.result.current.state.name).toBe("john2");
-    expect(mutation.result.current.state.age).toBe(40);
+    expect(mutation2.result.current.state.name).toBe("john2");
+    expect(mutation2.result.current.state.age).toBe(40);
   });
 
   test("Check none computed value", async () => {
