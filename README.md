@@ -3,22 +3,42 @@ A lightweight React library that allows communication between components by usin
 
 ## Usage
 ```javascript
-function App({ notify }) {
-  const increment = () => {
-    notify({
-      value: {
-        type: INCREMENT,
-      },
-    });
-  };
+import { MicroStore } from "hermes-io";
 
-  const decrement = () => {
-    notify({
-      value: {
-        type: DECREMENT,
-      },
-    });
+export const store = new MicroStore();
+export const storeId = 'counter-id';
+```
+
+```javascript
+export const actions = {
+  INCREMENT: "INCREMENT",
+  DECREMENT: "DECREMENT"
+};
+
+export default function reducer(store, action) {
+  const actionsMap = {
+    [actions.INCREMENT]: () => {
+      store.state.count += 1;
+    },
+   [actions.DECREMENT]: () => {
+      store.state.count -= 1;
+    },
   };
+  return actionsMap[action.payload.type]();
+};
+```
+
+```javascript
+import { useObservableStore } from "hermes-io";
+import { store, storeId } from "@/store";
+import reducer, { actions } from "@/reducer";
+
+export default function App() {
+  useObservableStore(storeId, { count: 0 }, reducer, store);
+
+  const increment = () => store.mutate({ type: events.INCREMENT });
+
+  const decrement = () => store.mutate({ type: events.DECREMENT });
 
   return (
     <div>
@@ -29,32 +49,26 @@ function App({ notify }) {
     </div>
   );
 };
-export default withNotify(App, {
-  context: CounterContext,
-  observer: CounterObserver
-});
 ```
 
 ```javascript
+import { useMutations } from "hermes-io";
+import { store, storeId } from "@/store";
+import { actions } from "@/reducer";
+
 export function Counter() {
-  const [count, setCount] = useState(0);
-  const handleCounterNotification = (event) => {
-    const { value = {} } = event;
-    const { type } = value;
-    if (type === INCREMENT) setCount((prevValue) => prevValue + 1);
-    if (type === DECREMENT) setCount((prevValue) => prevValue - 1);
-  };
-
-  useObserver({
-    contexts: [CounterContext],
-    observer: CounterObserver,
-    listener: handleCounterNotification,
+  const { state, onEvent } = useMutations({
+    initialState: { count: 0 },
+    id: storeId,
+    store,
   });
+  onEvent(actions.INCREMENT, () => ({ count: state.count });
+  onEvent(actions.DECREMENT, () => ({ count: state.count });
 
-  return <h1>Counter: {count}</h1>;
+  return <h1>Counter: {state.count}</h1>;
 }
 ```
-<img src="https://raw.githubusercontent.com/Maxtermax/hermes-io-counter-demo/master/src/assets/optimized.gif" />
+<img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*VhOkr1735qdrHHyuJszqvQ.gif" />
 
 ## Documentation
 See: https://hermes-io-docs.vercel.app/
