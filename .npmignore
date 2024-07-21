@@ -17,6 +17,9 @@ MIT-LICENSE.txt
 
 # test
 /lib/**/**.test.js
+/lib/setupTests.js
+
+
 
 /__test__
 
