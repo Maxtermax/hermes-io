@@ -1,6 +1,9 @@
 # hermes-io
 A lightweight React library that allows communication between components by using the observer pattern and the hook api.
 
+## Documentation
+See: https://hermes-io-docs.vercel.app/
+
 ## Usage
 ```javascript
 import { MicroStore } from "hermes-io";
@@ -69,9 +72,6 @@ export function Counter() {
 }
 ```
 <img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*VhOkr1735qdrHHyuJszqvQ.gif" />
-
-## Documentation
-See: https://hermes-io-docs.vercel.app/
 
 
 ## Devtool

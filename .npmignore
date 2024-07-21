@@ -9,6 +9,8 @@
 .swcrc
 
 ./README.md
+./vite.config.js
+./vitest-setup.js
 
 # utils 
 /utils
