@@ -8,9 +8,9 @@
 .quokka
 .swcrc
 
-./README.md
-./vite.config.js
-./vitest-setup.js
+vite.config.js
+vitest-setup.js
+MIT-LICENSE.txt
 
 # utils 
 /utils
