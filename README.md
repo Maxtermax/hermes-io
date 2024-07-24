@@ -65,7 +65,7 @@ export function Counter() {
     id: storeId,
     store,
   });
-  const handleEvent = (value, resolver, setNoUpdate, currentState) => ({ count: currentState.count }); 
+  const handleEvent = (value, _resolver, _setNoUpdate, currentState) => ({ count: currentState.count }); 
 
   onEvent(actions.INCREMENT, handleEvent);
   onEvent(actions.DECREMENT, handleEvent);
