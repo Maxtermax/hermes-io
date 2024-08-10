@@ -56,7 +56,7 @@ const handleMessageFromDevtools = (event) => {
   }
 };
 
-window.addEventListener("message", handleMessageFromDevtools);
+window?.addEventListener?.("message", handleMessageFromDevtools);
 
 export class Context {
   id = null;
@@ -81,7 +81,7 @@ export class Context {
     const snapshot = this.takeSnapshot();
     const { listener, stackTrace, value, date, _internalId } = snapshot;
     collection.push(snapshot);
-    window.postMessage(
+    window?.postMessage?.(
       {
         type: CONSTANTS.CONTEXT_SNAPSHOT,
         payload: {
