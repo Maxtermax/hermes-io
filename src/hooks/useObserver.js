@@ -24,13 +24,10 @@ export const useObserver = (props) => {
     }
     if (microStore instanceof MicroStore && id) {
       const store = microStore?.get?.(id);
-      const isNotInCollection = !store;
-      if (isNotInCollection) {
-        microStore.subscribe(subscribeInnerStore);
-      } else {
-        microStore.unsubscribe(subscribeInnerStore);
-        subscribeInnerStore();
-      }
+      const isInCollection = !!store;
+      if (isInCollection) subscribeInnerStore();
+      microStore.unsubscribe(subscribeInnerStore);
+      microStore.subscribe(subscribeInnerStore);
     } else {
       observer?.subscribe?.(subscriber);
     }
