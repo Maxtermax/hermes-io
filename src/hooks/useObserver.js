@@ -9,14 +9,14 @@ export const useObserver = (props) => {
 
     function subscriber(payload, resolve) {
       const hasValidList = contexts?.find?.(
-        (ctx) => ctx.id === payload?.context?.id,
+        (ctx) => ctx.id === payload?.context?.id
       );
       if (hasValidList) {
         payload?.context?.update({ value: payload, listener });
         listener?.(payload, resolve);
       }
     }
-    function microStoreSubscriber() {
+    function subscribeInnerStore() {
       const store = microStore?.get?.(id);
       observer = store?.observer;
       contexts = store?.context ? [store.context] : [];
@@ -24,15 +24,19 @@ export const useObserver = (props) => {
     }
     if (microStore instanceof MicroStore && id) {
       const store = microStore?.get?.(id);
-      const isStoreAvailable = !!store;
-      if (isStoreAvailable) microStoreSubscriber();
-      microStore?.subscribe?.(microStoreSubscriber);
+      const isNotInCollection = !store;
+      if (isNotInCollection) {
+        microStore.subscribe(subscribeInnerStore);
+      } else {
+        microStore.unsubscribe(subscribeInnerStore);
+        subscribeInnerStore();
+      }
     } else {
       observer?.subscribe?.(subscriber);
     }
     return () => {
       observer?.unsubscribe?.(subscriber);
-      microStore?.unsubscribe?.(microStoreSubscriber);
+      microStore?.unsubscribe?.(subscribeInnerStore);
     };
   }, [
     props.id,
