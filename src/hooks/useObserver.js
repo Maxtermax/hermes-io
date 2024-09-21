@@ -6,6 +6,7 @@ export const useObserver = (props) => {
     const { listener, id, microStore } = props;
     let observer = props.observer;
     let contexts = props.contexts;
+    console.log("parent run: ", props.parent);
 
     function subscriber(payload, resolve) {
       const hasValidList = contexts?.find?.(
@@ -23,10 +24,9 @@ export const useObserver = (props) => {
       observer?.subscribe?.(subscriber);
     }
     if (microStore instanceof MicroStore && id) {
-      const store = microStore?.get?.(id);
+      const store = microStore.get(id);
       const isInCollection = !!store;
       if (isInCollection) subscribeInnerStore();
-      microStore.unsubscribe(subscribeInnerStore);
       microStore.subscribe(subscribeInnerStore);
     } else {
       observer?.subscribe?.(subscriber);
@@ -38,6 +38,7 @@ export const useObserver = (props) => {
   }, [
     props.id,
     props.listener,
+    props.parent,
     props.observer,
     props.contexts,
     props.microStore,

@@ -6,6 +6,9 @@ export class Observer {
   unsubscribe(callback) {
     this.subscriptors.splice(this.subscriptors.findIndex(cb => cb  === callback), 1);
   }
+
+  has = (cb) => this.subscriptors.some((subscriber) => cb === subscriber);
+
   notify(args = {}) {
     return new Promise((resolve) => {
       this.subscriptors.forEach(callback => callback(args, resolve));

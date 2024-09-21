@@ -7,11 +7,14 @@ const randomId = () =>
 export const useMutations = (props = {}) => {
   const { events = [], onChange, store, id, initialState = {} } = props;
   const [_renderId, setReRenderId] = useState(randomId());
-  let mutation = useRef({
+  if (props.parent) {
+    console.trace("PARENT");
+  }
+  let mutationRef = useRef({
     state: { ...initialState },
     events: [],
     onEvent: (event, onChange) => {
-      const events = mutation.current.events;
+      const events = mutationRef.current.events;
       const isAlreadyIn = events.some((item) => item.event === event);
       if (!isAlreadyIn) events.push({ event, onChange });
     },
@@ -26,17 +29,17 @@ export const useMutations = (props = {}) => {
       if (target === props.id) {
         match = true;
         let result =
-          onChange?.(value, resolver, setNoUpdate, mutation.current.state) ??
+          onChange?.(value, resolver, setNoUpdate, mutationRef.current.state) ??
           {};
         if (props.noUpdate) result = {};
-        mutation.current.state = { ...mutation.current.state, ...result };
+        mutationRef.current.state = { ...mutationRef.current.state, ...result };
       }
     });
     if (hasNotTargets) {
       let result =
-        onChange?.(value, resolver, setNoUpdate, mutation.current.state) ?? {};
+        onChange?.(value, resolver, setNoUpdate, mutationRef.current.state) ?? {};
       if (props.noUpdate) result = {};
-      mutation.current.state = { ...mutation.current.state, ...result };
+      mutationRef.current.state = { ...mutationRef.current.state, ...result };
     }
     if (props.noUpdate === true || match === false) return;
     setReRenderId(randomId());
@@ -45,7 +48,7 @@ export const useMutations = (props = {}) => {
   const handleNotification = (e, resolver) => {
     const value = e.value?.payload?.value;
     const targets = e.value?.targets;
-    const customs = mutation.current?.events;
+    const customs = mutationRef.current?.events;
     const hasCustomEvents = customs.length > 0;
     if (hasCustomEvents) {
       for (const custom of customs) {
@@ -63,9 +66,11 @@ export const useMutations = (props = {}) => {
   useObserver({
     id,
     microStore: store,
+    parent: props.parent,
     listener: handleNotification,
     contexts: [store?.context],
     observer: store?.observer,
   });
-  return mutation.current;
+
+  return mutationRef.current;
 };

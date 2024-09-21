@@ -16,9 +16,9 @@ export function useStore(props) {
   if (!store.state) store.state = data;
   useEffect(() => {
     microStore?.add?.(store?.id, store);
-    microStore?.notify?.();
+    microStore?.notify?.(); // notify store added 
     return () => microStore?.remove?.(store?.id);
-  }, [microStore?.add, microStore?.notify, store?.id]);
+  }, [microStore, store]);
 
   return { query, mutate, store };
 }

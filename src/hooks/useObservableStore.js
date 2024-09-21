@@ -4,7 +4,8 @@ import { Observer } from "../observer/observer";
 import { Store } from "../store/store";
 
 export const useObservableStore = (id, data, reducer, microStore) => {
-  const payload = {
+  const { store } = useStore({
+    microStore,
     store: new Store({
       id,
       context: new Context(`Context_${id}`),
@@ -12,8 +13,6 @@ export const useObservableStore = (id, data, reducer, microStore) => {
     }),
     reducer,
     data,
-  };
-  if (microStore) payload.microStore = microStore;
-  const { store } = useStore(payload);
+  });
   return { store };
 };
