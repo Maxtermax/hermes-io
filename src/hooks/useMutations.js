@@ -1,16 +1,20 @@
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useObserver } from "./useObserver";
+import { MicroStore } from "../store/store";
 
 const randomId = () =>
   crypto?.randomUUID?.() || Math.random().toString(36).substring(2, 16);
 
+function getStackTrace() {
+  const error = new Error();
+  return error.stack;
+}
+
 export const useMutations = (props = {}) => {
   const { events = [], onChange, store, id, initialState = {} } = props;
   const [_renderId, setReRenderId] = useState(randomId());
-  if (props.parent) {
-    console.trace("PARENT");
-  }
   let mutationRef = useRef({
+    id: getStackTrace(),
     state: { ...initialState },
     events: [],
     onEvent: (event, onChange) => {
@@ -37,7 +41,8 @@ export const useMutations = (props = {}) => {
     });
     if (hasNotTargets) {
       let result =
-        onChange?.(value, resolver, setNoUpdate, mutationRef.current.state) ?? {};
+        onChange?.(value, resolver, setNoUpdate, mutationRef.current.state) ??
+        {};
       if (props.noUpdate) result = {};
       mutationRef.current.state = { ...mutationRef.current.state, ...result };
     }
@@ -45,28 +50,48 @@ export const useMutations = (props = {}) => {
     setReRenderId(randomId());
   };
 
-  const handleNotification = (e, resolver) => {
-    const value = e.value?.payload?.value;
-    const targets = e.value?.targets;
-    const customs = mutationRef.current?.events;
-    const hasCustomEvents = customs.length > 0;
-    if (hasCustomEvents) {
-      for (const custom of customs) {
-        if (e.value.type !== custom.event) continue;
-        executeEvent(targets, value, resolver, custom.onChange);
+  const handleNotification = useCallback(
+    (e, resolver) => {
+      const value = e.value?.payload?.value;
+      const targets = e.value?.targets;
+      const customs = mutationRef.current?.events;
+      const hasCustomEvents = customs.length > 0;
+      if (hasCustomEvents) {
+        for (const custom of customs) {
+          if (e.value.type !== custom.event) continue;
+          executeEvent(targets, value, resolver, custom.onChange);
+        }
+        return;
       }
-      return;
+      for (const event of events) {
+        if (e.value.type !== event) continue;
+        executeEvent(targets, value, resolver, onChange);
+      }
+    },
+    [events, mutationRef.current?.events]
+  );
+
+  useEffect(() => {
+    const isMicroStore = store instanceof MicroStore;
+    if (isMicroStore) {
+      let microStore = store;
+      const { id: mutationId } = mutationRef.current;
+      handleNotification.id = mutationId;
+      const isPopulated = microStore.has(id);
+      if (!microStore.hasListener(mutationId)) {
+        microStore.registerListener(id, handleNotification);
+      }
+      if (isPopulated && !microStore.get(id).observer.has(mutationId)) {
+        microStore.subscribeStore(id, microStore.get(id));
+      }
     }
-    for (const event of events) {
-      if (e.value.type !== event) continue;
-      executeEvent(targets, value, resolver, onChange);
-    }
-  };
+    return () => {
+      if (isMicroStore) store.remove(id, mutationRef.current.id);
+    };
+  }, []);
 
   useObserver({
-    id,
-    microStore: store,
-    parent: props.parent,
+    store,
     listener: handleNotification,
     contexts: [store?.context],
     observer: store?.observer,

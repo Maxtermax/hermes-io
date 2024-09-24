@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 
 export function useStore(props) {
-  const { microStore, reducer, data } = props;
+  const { reducer, data } = props;
   const storeRef = useRef(props.store);
   const store = storeRef.current;
   const mutate = (store.mutate = useCallback(({ type, payload, targets }) => {
@@ -14,11 +14,5 @@ export function useStore(props) {
     []
   ));
   if (!store.state) store.state = data;
-  useEffect(() => {
-    microStore?.add?.(store?.id, store);
-    microStore?.notify?.(); // notify store added 
-    return () => microStore?.remove?.(store?.id);
-  }, [microStore, store]);
-
   return { query, mutate, store };
 }

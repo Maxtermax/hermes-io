@@ -4,14 +4,17 @@ export class Observer {
     this.subscriptors.push(callback);
   }
   unsubscribe(callback) {
-    this.subscriptors.splice(this.subscriptors.findIndex(cb => cb  === callback), 1);
+    this.subscriptors.splice(
+      this.subscriptors.findIndex((cb) => cb === callback),
+      1
+    );
   }
 
-  has = (cb) => this.subscriptors.some((subscriber) => cb === subscriber);
+  has = (id) => this.subscriptors.some((subscriber) => id === subscriber.id);
 
   notify(args = {}) {
     return new Promise((resolve) => {
-      this.subscriptors.forEach(callback => callback(args, resolve));
-    })
+      this.subscriptors.forEach((callback) => callback(args, resolve));
+    });
   }
 }

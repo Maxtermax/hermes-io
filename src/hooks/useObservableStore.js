@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useStore } from "./useStore";
 import { Context } from "../context/context";
 import { Observer } from "../observer/observer";
@@ -14,5 +15,10 @@ export const useObservableStore = (id, data, reducer, microStore) => {
     reducer,
     data,
   });
+
+  useEffect(() => {
+    microStore?.add?.(id, store);
+  }, [microStore, store, id]);
+
   return { store };
 };
