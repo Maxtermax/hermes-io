@@ -10,9 +10,7 @@ export class Store {
     this.context = context;
     this.observer = observer;
   }
-  notify = (value) => {
-    this.observer.notify({ context: this.context, value });
-  };
+  notify = (value) => this.observer.notify({ context: this.context, value });
   query = () =>
     console.log(
       "method is not conencted to the reducer, please call useStore first"
