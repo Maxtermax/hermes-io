@@ -56,7 +56,9 @@ const handleMessageFromDevtools = (event) => {
   }
 };
 
-window?.addEventListener?.("message", handleMessageFromDevtools);
+if (typeof window !== "undefined") {
+  window.addEventListener("message", handleMessageFromDevtools);
+}
 
 export class Context {
   id = null;
@@ -81,20 +83,22 @@ export class Context {
     const snapshot = this.takeSnapshot();
     const { listener, stackTrace, value, date, _internalId } = snapshot;
     collection.push(snapshot);
-    window?.postMessage?.(
-      {
-        type: CONSTANTS.CONTEXT_SNAPSHOT,
-        payload: {
-          value: JSON.stringify(value.value),
-          listener: listener.name,
-          stackTrace,
-          date,
-          id: _internalId,
+    if (typeof window !== "undefined") {
+      window.postMessage(
+        {
+          type: CONSTANTS.CONTEXT_SNAPSHOT,
+          payload: {
+            value: JSON.stringify(value.value),
+            listener: listener.name,
+            stackTrace,
+            date,
+            id: _internalId,
+          },
+          source: "hermes-io",
         },
-        source: "hermes-io",
-      },
-      "*"
-    );
+        "*"
+      );
+    }
   };
   takeSnapshot = () => {
     return {
