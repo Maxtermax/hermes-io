@@ -1,4 +1,4 @@
-export * from "./hooks";
+export * from "./hooks/index";
 export * from "./observer/observer";
 export * from "./context/context";
 export * from "./store/store";
