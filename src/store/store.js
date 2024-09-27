@@ -1,4 +1,4 @@
-import { hasValidList } from "../hooks/useObserver";
+import { hasValidList } from "../hooks/useObserver.js";
 
 export class Store {
   context = null;
