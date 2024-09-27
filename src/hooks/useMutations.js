@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useObserver } from "./useObserver";
-import { MicroStore } from "../store/store";
+import { useObserver } from "./useObserver.js";
+import { MicroStore } from "../store/store.js";
 
 const randomId = () =>
   crypto?.randomUUID?.() || Math.random().toString(36).substring(2, 16);

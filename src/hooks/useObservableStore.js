@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useStore } from "./useStore";
-import { Context } from "../context/context";
-import { Observer } from "../observer/observer";
-import { Store } from "../store/store";
+import { useStore } from "./useStore.js";
+import { Context } from "../context/context.js";
+import { Observer } from "../observer/observer.js";
+import { Store } from "../store/store.js";
 
 export const useObservableStore = (id, data, reducer, microStore) => {
   const { store } = useStore({

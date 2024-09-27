@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Store } from "../store/store";
+import { Store } from "../store/store.js";
 
 export const hasValidList = (contexts = [], payload) =>
   contexts?.find?.((ctx) => ctx.id === payload?.context?.id);
