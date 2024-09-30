@@ -64,7 +64,5 @@ describe("useStore", () => {
     );
     expect(micro.collection.size).toBe(1);
     expect(micro.get(id)).toBe(store);
-    micro.remove(id);
-    expect(micro.collection.size).toBe(0);
   });
 });

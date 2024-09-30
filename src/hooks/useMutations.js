@@ -1,14 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useObserver } from "./useObserver.js";
 import { MicroStore } from "../store/store.js";
-
-const randomId = () =>
-  crypto?.randomUUID?.() || Math.random().toString(36).substring(2, 16);
-
-function getStackTrace() {
-  const error = new Error();
-  return error.stack;
-}
+import { getStackTrace, randomId } from "../utils.js";
 
 export const useMutations = (props = {}) => {
   const { events = [], onChange, store, id, initialState = {} } = props;
