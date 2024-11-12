@@ -5,16 +5,12 @@ import { MicroStore } from "../store/store.js";
 const randomId = () =>
   crypto?.randomUUID?.() || Math.random().toString(36).substring(2, 16);
 
-function getStackTrace() {
-  const error = new Error();
-  return error.stack;
-}
 
 export const useMutations = (props = {}) => {
   const { events = [], onChange, store, id, initialState = {} } = props;
   const [_renderId, setReRenderId] = useState(randomId());
   let mutationRef = useRef({
-    id: getStackTrace(),
+    id: randomId(),
     state: { ...initialState },
     events: [],
     onEvent: (event, onChange) => {
