@@ -55,8 +55,8 @@ export class MicroStore {
   };
   hasListener = (id) => {
     let result = false;
-    for (const [_, listeners] of this.listeners) {
-      result = listeners.some((listener) => listener.id === id);
+    for (const [_, listener] of this.listeners) {
+      result = listener.some((cb) => cb.id === id);
       if (result) break;
     }
     return result;
@@ -66,6 +66,17 @@ export class MicroStore {
     const listeners = this.listeners.get(id) ?? [];
     for (const listener of listeners) {
       if (listener.id !== mutationId) continue;
+      if (store.observer.has(listener.id)) {
+        store.observer.unsubscribe(listener);
+      }
+      const index = listeners.indexOf(listener);
+      if (index > -1) listeners.splice(index, 1);
+    }
+  };
+  removeAll = (id) => {
+    const store = this.collection.get(id);
+    const listeners = this.listeners.get(id) ?? [];
+    for (const listener of listeners) {
       if (store.observer.has(listener.id)) {
         store.observer.unsubscribe(listener);
       }

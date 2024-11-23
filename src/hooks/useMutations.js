@@ -1,13 +1,20 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useObserver } from "./useObserver.js";
 import { MicroStore } from "../store/store.js";
-import { randomId } from "../utils.js";
+import { getStackTrace, randomId } from "../utils.js";
 
 export const useMutations = (props = {}) => {
-  const { events = [], onChange, store, id, initialState = {} } = props;
+  const {
+    events = [],
+    onChange,
+    store,
+    id,
+    initialState = {},
+    name = "",
+  } = props;
   const [_renderId, setReRenderId] = useState(randomId());
   let mutationRef = useRef({
-    id: randomId(),
+    id: `${getStackTrace()}_${id ?? ''}`,
     state: { ...initialState },
     events: [],
     onEvent: (event, onChange) => {
@@ -66,6 +73,9 @@ export const useMutations = (props = {}) => {
 
   useEffect(() => {
     const isMicroStore = store instanceof MicroStore;
+    function reset() {
+      if (isMicroStore) store.remove(id, mutationRef.current.id);
+    }
     if (isMicroStore) {
       let microStore = store;
       const { id: mutationId } = mutationRef.current;
@@ -75,13 +85,11 @@ export const useMutations = (props = {}) => {
         microStore.registerListener(id, handleNotification);
       }
       if (isPopulated && !microStore.get(id).observer.has(mutationId)) {
-        microStore.subscribeStore(id, microStore.get(id));
+        microStore.subscribeStore(id, microStore.get(id), name);
       }
     }
-    return () => {
-      if (isMicroStore) store.remove(id, mutationRef.current.id);
-    };
-  }, []);
+    return () => reset();
+  }, [handleNotification]);
 
   useObserver({
     store,
