@@ -1,6 +1,6 @@
 {
   "name": "hermes-io",
-  "version": "2.11.94",
+  "version": "2.11.95",
   "type": "module",
   "description": "A lightweight React library that allows communication between Reactjs components by using the observer pattern and the hook api",
   "main": "./lib/index.js",

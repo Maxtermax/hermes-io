@@ -14,7 +14,7 @@ export const useMutations = (props = {}) => {
   } = props;
   const [_renderId, setReRenderId] = useState(randomId());
   let mutationRef = useRef({
-    id: `${getStackTrace()}_${id ?? ''}`,
+    id: `${getStackTrace()}_${id ?? ""}`,
     state: { ...initialState },
     events: [],
     onEvent: (event, onChange) => {
@@ -73,9 +73,6 @@ export const useMutations = (props = {}) => {
 
   useEffect(() => {
     const isMicroStore = store instanceof MicroStore;
-    function reset() {
-      if (isMicroStore) store.remove(id, mutationRef.current.id);
-    }
     if (isMicroStore) {
       let microStore = store;
       const { id: mutationId } = mutationRef.current;
@@ -88,8 +85,10 @@ export const useMutations = (props = {}) => {
         microStore.subscribeStore(id, microStore.get(id), name);
       }
     }
-    return () => reset();
-  }, [handleNotification]);
+    return () => {
+      if (isMicroStore) store.remove(id, mutationRef.current.id);
+    };
+  }, []);
 
   useObserver({
     store,
