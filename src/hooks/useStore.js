@@ -1,5 +1,5 @@
 import { useCallback, useRef } from "react";
-import { useMicroStore } from "./useMicroStore";
+import { useMicroStore } from "./useMicroStore.js";
 
 export function useStore(props) {
   const { name, reducer, data, microStore, id } = props;
