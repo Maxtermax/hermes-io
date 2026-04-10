@@ -11,8 +11,10 @@ export const useMutations = (props = {}) => {
     id,
     initialState = {},
     name = "",
+    noUpdate: initialNoUpdate,
   } = props;
   const [_renderId, setReRenderId] = useState(randomId());
+  const noUpdateRef = useRef(initialNoUpdate);
   let mutationRef = useRef({
     id: `${getStackTrace()}_${id ?? ""}`,
     state: { ...initialState },
@@ -24,18 +26,18 @@ export const useMutations = (props = {}) => {
     },
   });
 
-  const setNoUpdate = (value) => (props.noUpdate = value);
+  const setNoUpdate = (value) => (noUpdateRef.current = value);
 
   const executeEvent = (targets, value, resolver, onChange) => {
     const hasNotTargets = !targets;
     let match = false;
     targets?.forEach?.((target) => {
-      if (target === props.id) {
+      if (target === id) {
         match = true;
         let result =
           onChange?.(value, resolver, setNoUpdate, mutationRef.current.state) ??
           {};
-        if (props.noUpdate) result = {};
+        if (noUpdateRef.current) result = {};
         mutationRef.current.state = { ...mutationRef.current.state, ...result };
       }
     });
@@ -43,10 +45,10 @@ export const useMutations = (props = {}) => {
       let result =
         onChange?.(value, resolver, setNoUpdate, mutationRef.current.state) ??
         {};
-      if (props.noUpdate) result = {};
+      if (noUpdateRef.current) result = {};
       mutationRef.current.state = { ...mutationRef.current.state, ...result };
     }
-    if (props.noUpdate === true || match === false) return;
+    if (noUpdateRef.current === true || match === false) return;
     setReRenderId(randomId());
   };
 

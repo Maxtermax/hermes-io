@@ -46,19 +46,32 @@ const actions = {
 
 const handleMessageFromDevtools = (event) => {
   try {
+    if (event.origin !== window.location.origin) return;
     const { source, payload } = event.data;
     if (source === CONSTANTS.CHROME_EXTENSION) {
-      if (payload?.type) return actions[payload.type](payload);
-      actions[payload]();
+      if (payload?.type) return actions[payload.type]?.(payload);
+      actions[payload]?.();
     }
   } catch (error) {
     console.error(error);
   }
 };
 
-if (typeof window !== "undefined") {
+let listenerRegistered = false;
+
+export function subscribeDevtools() {
+  if (typeof window === "undefined" || listenerRegistered) return;
+  listenerRegistered = true;
   window.addEventListener("message", handleMessageFromDevtools);
 }
+
+export function unsubscribeDevtools() {
+  if (typeof window === "undefined" || !listenerRegistered) return;
+  listenerRegistered = false;
+  window.removeEventListener("message", handleMessageFromDevtools);
+}
+
+subscribeDevtools();
 
 export class Context {
   id = null;
@@ -96,7 +109,7 @@ export class Context {
           },
           source: "hermes-io",
         },
-        "*"
+        window.location.origin
       );
     }
   };

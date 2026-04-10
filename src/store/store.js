@@ -28,6 +28,7 @@ export class MicroStore {
     const { observer, context } = store;
     const listeners = this.listeners.get(id) ?? [];
     for (const listener of listeners) {
+      if (observer.has(listener.id)) continue;
       function subscriber(payload, resolve) {
         const isInvalidContext = !hasValidList([context], payload);
         if (isInvalidContext) return;
@@ -35,8 +36,7 @@ export class MicroStore {
         listener?.(payload, resolve);
       }
       subscriber.id = listener.id;
-      const hasListener = observer.has(listener.id);
-      if (!hasListener) observer.subscribe(subscriber);
+      if (!observer.has(listener.id)) observer.subscribe(subscriber);
     }
   };
   add = (id, store) => {
